@@ -47,7 +47,7 @@ class LoginBox extends React.Component{
                 if (this.state.userData[i].password == this.state.password){
                 //redirect to the user profile page
                 log("login successful");
-                return
+                return;
                 }
                 else{
                     //username and password not match
