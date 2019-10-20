@@ -1,6 +1,8 @@
 import React from 'react';
 import Project from './Project';
+
 import { uid } from 'react-uid';
+
 
 const global_project_0 = {
 	id: 0,
@@ -28,23 +30,29 @@ class Home extends React.Component {
 
 	render() {
 		return(
-			<div id="projectContainer">
-				{
-					this.state.projects.map((project) => {
-						return(
-							<Project key={ uid(project) }
-							project = {project}
-							/>
-							)
+			<div>
 
-					})
-				}
+				<div id="projectContainer">
+					{
+						this.state.projects.map((project) => {
+							return(
+
+								<Project key={ uid(project) }
+								project = {project}
+								/>
+								)
+
+						})
+					}
+				</div>
 			</div>
+
+
 		)
 
 	}
-
-
+	
 }
 
 export default Home;
+
