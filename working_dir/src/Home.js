@@ -12,10 +12,17 @@ const global_project_0 = {
 	status: "in progress",
 	icon: 'url/..../'
 }
+const global_project_1 = {
+	id: 1,
+	title: "World",
+	start_date: "000000-MM-DD",
+	status: "in progress",
+	icon: 'url/..../'
+}
 
 function loadData() {
 	console.log("loadData() called")
-	const projects = [global_project_0]
+	const projects = [global_project_0, global_project_1]
 	return projects
 }
 
@@ -49,7 +56,7 @@ class Home extends React.Component {
 		      </Link>
 		      </div>
 			</div>)
-		
+
 
 	}
 

@@ -1,4 +1,5 @@
 import React from 'react';
+import './Project.css'
 const log = console.log
 
 class Project extends React.Component {
@@ -14,9 +15,10 @@ class Project extends React.Component {
 
 		return(
 			<div id="project">
-				{this.project.title},
-				{this.project.start_date},
-				{this.project.status},
+				<div className="title">{this.project.title}</div>
+				<div className="start_date">{this.project.start_date}</div>
+				<div className="status">{this.project.status}</div>
+
 			</div>
 			)
 	}
