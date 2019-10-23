@@ -1,6 +1,9 @@
 import React from 'react';
 import Project from './Project';
 import { uid } from 'react-uid';
+import LoginBox from './login';
+import { Link } from 'react-router-dom';
+import './Home.css';
 
 const global_project_0 = {
 	id: 0,
@@ -27,8 +30,7 @@ class Home extends React.Component {
 
 
 	render() {
-		return(
-			<div id="projectContainer">
+		 return (<div id="projectContainer">
 				{
 					this.state.projects.map((project) => {
 						return(
@@ -39,8 +41,15 @@ class Home extends React.Component {
 
 					})
 				}
-			</div>
-		)
+				<div className="loginBox">
+				<Link to={'/login'}> { /* This element will link the URL path to /queue */ }
+			        <button>
+			            LogIn
+			        </button>
+		      </Link>
+		      </div>
+			</div>)
+		
 
 	}
 
