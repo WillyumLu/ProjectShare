@@ -36,8 +36,6 @@ class Home extends React.Component {
 	  	this.state = {projects: loadData()}
 	  }
 
-
-
 	render() {
 
 			return (<div id="projectContainer">
@@ -59,13 +57,7 @@ class Home extends React.Component {
 		      </Link>
 		      </div>
 			</div>)
-
-
-
-
-
 	}
-	
 }
 
 export default Home;
