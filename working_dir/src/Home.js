@@ -39,7 +39,7 @@ class Home extends React.Component {
 
 
 	render() {
-		return(
+
 			return (<div id="projectContainer">
 				{
 					this.state.projects.map((project) => {
@@ -62,7 +62,7 @@ class Home extends React.Component {
 
 
 
-		)
+
 
 	}
 	
