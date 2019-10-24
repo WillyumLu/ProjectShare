@@ -40,23 +40,7 @@ class Home extends React.Component {
 
 	render() {
 		return(
-			<div>
-
-				<div id="projectContainer">
-					{
-						this.state.projects.map((project) => {
-							return(
-
-								<Project key={ uid(project) }
-								project = {project}
-								/>
-								)
-
-						})
-					}
-				</div>
-			</div>
-		 return (<div id="projectContainer">
+			return (<div id="projectContainer">
 				{
 					this.state.projects.map((project) => {
 						return(
