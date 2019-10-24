@@ -1,8 +1,7 @@
 import React from 'react';
-import { Menu, Icon , Input } from 'antd';
+import { Menu, /**Icon, **/ Input } from 'antd';
 import 'antd/dist/antd.css';
 
-const log = console.log
 const { Search } = Input;
 
 class Nevigation extends React.Component {
