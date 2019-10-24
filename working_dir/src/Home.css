@@ -3,3 +3,24 @@
 	top: 10px;
 	right: 20px;
 }
+.ProjectContainer {
+	position: absolute;
+	/*text-align: center;*/
+	top: 100px;
+
+}
+.Header {
+	text-align: center;
+}
+.info {
+	text-align: center;
+}
+.LikeButton {
+	position: absolute;
+	top: 20px;
+	left: 20px;
+}
+.Request {
+	margin-top: 100px;
+	text-align: center;
+}
