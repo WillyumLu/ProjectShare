@@ -1,5 +1,6 @@
 import React from 'react';
 import './Project.css'
+import { Link } from 'react-router-dom';
 const log = console.log
 
 class Project extends React.Component {
@@ -20,7 +21,7 @@ class Project extends React.Component {
 
 		return(
 			<div className="project">
-				<div className="title" onClick={this.onItemClick}>{this.project.title}</div>
+				<div className="title" onClick={this.onItemClick}><Link to={'/projectView'}>{this.project.title}</Link></div>
 				<div className="start_date">{this.project.start_date}</div>
 				<div className="status">{this.project.status}</div>
 

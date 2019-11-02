@@ -21,6 +21,7 @@ class App extends React.Component {
 		            <Route exact path='/' component={Home}/>
 		            <Route exact path='/login' component={LoginBox}/>
 					<Route exact path='/user' component={UserView}/>
+					<Route exact path='/projectView' component={Home}/>
 	          	  </Switch>
 	        	</BrowserRouter>
 			</div>

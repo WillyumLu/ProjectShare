@@ -52,14 +52,14 @@ class Home extends React.Component {
 	}
 
 	render() {
-		 if(this.state.displaySelectedProject){
+		 if(this.props.location.pathname === "/projectView"){
 		 	return(
 			 	<div>
 			 		<ProjectView project={this.state.projects[this.state.selectedProject]}/>
 			 	</div>
 		 	)
 		 }	
-		 else{
+		 else if (this.props.location.pathname === "/"){
 			 return(
 			 	<div id="MainView">
 			 		<h1 className = "Header"> Project Share </h1>
