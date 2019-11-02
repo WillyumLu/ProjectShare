@@ -1,19 +1,20 @@
 import React from 'react';
-
 import './login.css';
 
 const log = console.log
+
+//hardcoded mock user data for phase 1, should be replaced in future
+const userData = [{name:"user", password: "user", type: "user"},
+{name:"admin", password: "admin", type: "admin"}
+]
 
 class LoginBox extends React.Component{
     state = {
         username: "",
         password: "",
         usernameErr: null,
-        passwordErr: null,
-        //hardcoded mock user data for phase 1, should be replaced in future
-        userData: [{name:"user", password: "user", type: "user"},
-                    {name:"admin", password: "admin", type: "admin"}
-                    ]
+        passwordErr: null,       
+        
     }
 
     handleInputChange = (event) => {
@@ -42,12 +43,15 @@ class LoginBox extends React.Component{
         this.cleanErr();
         log(this.state);
 
-        for (let i = 0; i < this.state.userData.length; i++){
-            if (this.state.userData[i].name === this.state.username){
-                if (this.state.userData[i].password === this.state.password){
+        for (let i = 0; i < userData.length; i++){
+            if (userData[i].name === this.state.username){
+                if (userData[i].password === this.state.password){
                 //redirect to the user profile page
+
                 log("login successful");
-                return;
+                if (userData[i].type === "user"){this.props.history.push("/user");}
+                else {this.props.history.push("/admin");}
+                    
                 }
                 else{
                     //username and password not match
