@@ -11,21 +11,24 @@ const global_project_0 = {
 	title: "Project1",
 	start_date: "YYYY-MM-DD",
 	status: "in progress",
-	icon: 'url/..../'
+	icon: 'url/..../',
+	likes: 0
 }
 const global_project_1 = {
 	id: 1,
 	title: "Project2",
 	start_date: "000000-MM-DD",
 	status: "in progress",
-	icon: 'url/..../'
+	icon: 'url/..../',
+	likes: 0
 }
 const global_project_2 = {
 	id: 2,
 	title: "Project3",
 	start_date: "000000-MM-DD",
 	status: "complete",
-	icon: 'url/..../'
+	icon: 'url/..../',
+	likes: 0
 }
 
 function loadData() {
@@ -35,24 +38,50 @@ function loadData() {
 	return projects
 }
 
+/*const likeButton = document.getElementbyId("LikeButton")
+if(this.props.pathname === "/projectView"){
+	likeButton.addEventListener("onClick", increment)
+}
+function increment(){
+
+}
+*/
+
 
 class Home extends React.Component {
 
 	constructor(props) { // When the componenet is created,  calls load data
 		super(props)
 	  	this.state = {projects: loadData(),
-	  				  displaySelectedProject: false,
 	  				  selectedProject: ''}
 	  }
 
 	receiveSelectedProject = (projectData) => {
       this.setState({selectedProject: projectData})
-      this.setState({displaySelectedProject: true})
-      console.log(this.state.displaySelectedProject)
 	}
+
+	/*increment (){
+		console.log("add")
+		this.state.projects[this.state.selectedProject].likes+=1;
+	}*/
 
 	render() {
 		 if(this.props.location.pathname === "/projectView"){
+		 	setTimeout(
+		 		function(){
+		 			function increment(){
+		 				console.log("add")
+		 				this.state.projects[this.state.selectedProject].likes+=1;
+		 			}
+		 			const likeButton = React.findDOMNode(this.refs.'LikeButton')
+		 			console.log(likeButton)
+		 			console.log("before event gets added")
+		 			likeButton.addEventListener("onClick", increment )
+		 			console.log("after event gets added")
+		 		}
+		 		, 1000
+		 	)
+
 		 	return(
 			 	<div>
 			 		<ProjectView project={this.state.projects[this.state.selectedProject]}/>
@@ -70,6 +99,7 @@ class Home extends React.Component {
 							return(
 								<Project key={uid(project)}
 								         project = {this.state.projects[project]}
+								         increment = {this.increment}
 								         sendSelectedProject = {this.receiveSelectedProject}
 								/>
 								)

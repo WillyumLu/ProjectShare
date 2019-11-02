@@ -24,7 +24,7 @@ class Project extends React.Component {
 				<div className="title" onClick={this.onItemClick}><Link to={'/projectView'}>{this.project.title}</Link></div>
 				<div className="start_date">{this.project.start_date}</div>
 				<div className="status">{this.project.status}</div>
-
+				<div className="likes">likes: {this.project.likes}</div>
 			</div>
 			)
 	}
