@@ -1,5 +1,6 @@
 import React from 'react';
 import './Project.css'
+import { Avatar, Layout, List, Card, Carousel} from 'antd';
 import { Link } from 'react-router-dom';
 const log = console.log
 
@@ -21,10 +22,19 @@ class Project extends React.Component {
 
 		return(
 			<div className="project">
-				<div className="title" onClick={this.onItemClick}><Link to={'/projectView'}>{this.project.title}</Link></div>
-				<div className="start_date">{this.project.start_date}</div>
-				<div className="status">{this.project.status}</div>
-				<div className="likes">likes: {this.project.likes}</div>
+				<Card title = {this.project.title} style = {{margin: "10px", float: "left", hoverable: true, width: 900}}>
+					<Carousel autoplay>
+						<div class="slideImage">
+							<img src={this.project.image1}/>
+						</div>
+						<div class="slideImage">
+							<img src={this.project.image2}/>
+						</div>
+						<div class="slideImage">
+							<img src={this.project.image3}/>
+						</div>
+					</Carousel>
+				</Card>
 			</div>
 			)
 	}

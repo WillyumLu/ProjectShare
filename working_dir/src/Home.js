@@ -12,7 +12,10 @@ const global_project_0 = {
 	start_date: "YYYY-MM-DD",
 	status: "in progress",
 	icon: 'url/..../',
-	likes: 0
+	likes: 0,
+	image1: require('./projimg.jpg'),
+	image2: require('./projimg.jpg'),
+	image3: require('./southeast.jpg')
 }
 const global_project_1 = {
 	id: 1,
@@ -20,7 +23,10 @@ const global_project_1 = {
 	start_date: "000000-MM-DD",
 	status: "in progress",
 	icon: 'url/..../',
-	likes: 0
+	likes: 0,
+	image1: require('./chip.jpg'),
+	image2: require('./projimg.jpg'),
+	image3: require('./userprofile.jpg')
 }
 const global_project_2 = {
 	id: 2,
@@ -28,7 +34,10 @@ const global_project_2 = {
 	start_date: "000000-MM-DD",
 	status: "complete",
 	icon: 'url/..../',
-	likes: 0
+	likes: 0,
+	image1: require('./projimg.jpg'),
+	image2: require('./projimg.jpg'),
+	image3: require('./southeast.jpg')
 }
 
 function loadData() {
@@ -67,7 +76,7 @@ class Home extends React.Component {
 
 	render() {
 		 if(this.props.location.pathname === "/projectView"){
-		 	setTimeout(
+		 	/*setTimeout(
 		 		function(){
 		 			function increment(){
 		 				console.log("add")
@@ -80,7 +89,7 @@ class Home extends React.Component {
 		 			console.log("after event gets added")
 		 		}
 		 		, 1000
-		 	)
+		 	)*/
 
 		 	return(
 			 	<div>
