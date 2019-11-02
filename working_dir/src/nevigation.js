@@ -1,5 +1,6 @@
 import React from 'react';
 import { Menu, /**Icon, **/ Input } from 'antd';
+import { Link } from 'react-router-dom';
 import 'antd/dist/antd.css';
 
 const { Search } = Input;
@@ -23,7 +24,9 @@ class Nevigation extends React.Component {
         	LOGO
         </Menu.Item>
         <Menu.Item key="LOGIN" id="floatRight">
-        	LOGIN
+          <Link to={'/login'}>
+            LOGIN      
+					</Link>
         </Menu.Item>
         <Menu.Item key="search" >
 				<Search

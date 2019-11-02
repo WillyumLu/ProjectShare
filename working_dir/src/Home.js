@@ -2,7 +2,6 @@ import React from 'react';
 import Project from './Project';
 import ProjectView from './ProjectView'
 import { uid } from 'react-uid';
-import { Link } from 'react-router-dom';
 import './Home.css';
 
 var Center = require('react-center');
@@ -78,14 +77,7 @@ class Home extends React.Component {
 						})
 					}
 					</div>
-					</Center>
-					<div className="loginBox">
-						<Link to={'/login'}>
-					        <button>
-					            LogIn
-					        </button>
-					    </Link>
-				    </div>
+					</Center>					
 				</div>
 			)
 		}

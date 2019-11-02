@@ -12,10 +12,10 @@ class App extends React.Component {
 	render() {
 		console.log("app page")
 		return(
-			<div>
-				<Nevigation title="Nevigation"/>
+			<div>			
 
 				<BrowserRouter>
+					<Nevigation title="Nevigation"/>
 				    <Switch> { /* Similar to a switch statement - shows the component depending on the URL path */ }
 		            { /* Each Route below shows a different component depending on the exact path in the URL  */ }
 		            <Route exact path='/' component={Home}/>
