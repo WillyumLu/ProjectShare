@@ -8,11 +8,10 @@ var Center = require('react-center');
 
 const global_project_0 = {
 	id: 0,
-	title: "Project1",
-	start_date: "YYYY-MM-DD",
+	title: "Project Share",
+	start_date: "2019-09-29",
 	status: "in progress",
-	icon: 'url/..../',
-	likes: 0,
+	likes: 3,
 	image1: require('./projimg.jpg'),
 	image2: require('./projimg.jpg'),
 	image3: require('./southeast.jpg')
@@ -21,8 +20,7 @@ const global_project_1 = {
 	id: 1,
 	title: "Project2",
 	start_date: "000000-MM-DD",
-	status: "in progress",
-	icon: 'url/..../',
+	status: "deployed",
 	likes: 0,
 	image1: require('./chip.jpg'),
 	image2: require('./projimg.jpg'),
@@ -33,7 +31,6 @@ const global_project_2 = {
 	title: "Project3",
 	start_date: "000000-MM-DD",
 	status: "complete",
-	icon: 'url/..../',
 	likes: 0,
 	image1: require('./projimg.jpg'),
 	image2: require('./projimg.jpg'),
@@ -62,7 +59,8 @@ class Home extends React.Component {
 	constructor(props) { // When the componenet is created,  calls load data
 		super(props)
 	  	this.state = {projects: loadData(),
-	  				  selectedProject: ''}
+						selectedProject: '',
+					}
 	  }
 
 	receiveSelectedProject = (projectData) => {
