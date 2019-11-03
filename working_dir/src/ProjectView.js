@@ -7,7 +7,7 @@ class ProjectView extends React.Component {
 		super(props)
 		this.project = this.props.project;
 		this.increment = this.increment.bind(this)
-		this.state = {project: this.project, likes: this.project.likes}
+		this.state = {project: this.project, likes: this.props.project.likes}
 		log(this.project)
 	}
 	increment(event) {
