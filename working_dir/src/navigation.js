@@ -1,8 +1,8 @@
 import React from 'react';
-import { Menu, /**Icon, **/ Input } from 'antd';
+import { Menu, Icon, Input, Typography} from 'antd';
 import { Link } from 'react-router-dom';
 import 'antd/dist/antd.css';
-
+const { Title } = Typography;
 const { Search } = Input;
 class Navigation extends React.Component {
   state = {
@@ -18,17 +18,27 @@ class Navigation extends React.Component {
 
   render() {
     return (
-      <Menu onClick={this.handleClick} selectedKeys={[this.state.current]} mode="horizontal"  style={{'marginTop': 10}}>
+      <Menu onClick={this.handleClick} selectedKeys={[this.state.current]} mode="horizontal"  style={{'marginTop': 8, 'marginBottom': 8}}>
         <Menu.Item key="logo">
-        	LOGO
+          <Link to={'/'}>
+            <Icon type="home" style={{'font-size': 25}}/>
+          </Link>
+        </Menu.Item>
+        <Menu.Item key="name">
+          <Link to={'/'}>
+            <Title level={3}>Project Share</Title>      
+          </Link>
         </Menu.Item>
         <Menu.Item key="LOGIN" id="floatRight">
           <Link to={'/login'}>
             LOGIN      
 					</Link>
         </Menu.Item>
-        <Menu.Item key="search" >
-				<Search
+        <Menu.Item key="SIGNUP" id="floatRight">
+        SIGNUP
+        </Menu.Item>
+        <Menu.Item key="search" id="floatRight">
+				  <Search
 			      placeholder="project you wanna search"
 			      enterButton="Search"
 			      style={{'verticalAlign': 'middle'}}
@@ -40,10 +50,6 @@ class Navigation extends React.Component {
 
             }
 			    />
-
-        </Menu.Item>
-        <Menu.Item key="SIGNUP" id="floatRight">
-        SIGNUP
         </Menu.Item>
       </Menu>
     );

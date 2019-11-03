@@ -107,7 +107,6 @@ class Home extends React.Component {
 			else{
 			 return(
 			 	<div id="MainView">
-			 		<h1 className = "Header"> Project Share </h1>
 			 		<Center>
 			 		<div className = "ProjectContainer">
 					{
