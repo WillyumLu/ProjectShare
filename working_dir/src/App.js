@@ -6,6 +6,7 @@ import Navigation from './navigation';
 import './style.css';
 import LoginBox from './login'
 import UserView from './UserView'
+import AdminView from './AdminView'
 
 localStorage.setItem('loggedIn', false)
 
@@ -23,6 +24,7 @@ class App extends React.Component {
 		            <Route exact path='/' component={Home}/>
 		            <Route exact path='/login' component={LoginBox}/>
 					<Route exact path='/user' component={UserView}/>
+					<Route exact path='/admin' component={AdminView}/>
 					<Route exact path='/projectView' component={Home}/>
 	          	  </Switch>
 	        	</BrowserRouter>
