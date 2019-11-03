@@ -4,8 +4,7 @@ import { Link } from 'react-router-dom';
 import 'antd/dist/antd.css';
 
 const { Search } = Input;
-
-class Nevigation extends React.Component {
+class Navigation extends React.Component {
   state = {
     current: 'mail',
   };
@@ -33,7 +32,13 @@ class Nevigation extends React.Component {
 			      placeholder="project you wanna search"
 			      enterButton="Search"
 			      style={{'verticalAlign': 'middle'}}
-			      onSearch={value => console.log(value)}
+			      onSearch={
+
+              value => {
+                console.log(value)
+              }
+
+            }
 			    />
 
         </Menu.Item>
@@ -44,4 +49,4 @@ class Nevigation extends React.Component {
     );
   }
 }
-export default Nevigation;
+export default Navigation;

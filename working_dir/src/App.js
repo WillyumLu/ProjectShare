@@ -7,6 +7,7 @@ import './style.css';
 import LoginBox from './login'
 import UserView from './UserView'
 
+localStorage.setItem('loggedIn', false)
 
 /* main app component*/
 class App extends React.Component {

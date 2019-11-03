@@ -8,3 +8,9 @@
     height: 400px;
     width: 900px
 }
+#viewButton{
+	margin-bottom: 10px;
+}
+#card{
+	title: red;
+}

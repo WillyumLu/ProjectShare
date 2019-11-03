@@ -69,6 +69,13 @@ class Home extends React.Component {
       this.setState({selectedProject: projectData})
 	}
 
+	receiveSearchRequest = function() {
+		this.setState({projects: this.projects})
+	}
+	/*
+	localStorage.setItem('sendSearchRequest', receiveSearchRequest)
+	*/
+
 	/*increment (){
 		console.log("add")
 		this.state.projects[this.state.selectedProject].likes+=1;
@@ -76,21 +83,6 @@ class Home extends React.Component {
 
 	render() {
 		 if(this.props.location.pathname === "/projectView"){
-		 	/*setTimeout(
-		 		function(){
-		 			function increment(){
-		 				console.log("add")
-		 				this.state.projects[this.state.selectedProject].likes+=1;
-		 			}
-		 			const likeButton = React.findDOMNode(this.refs.'LikeButton')
-		 			console.log(likeButton)
-		 			console.log("before event gets added")
-		 			likeButton.addEventListener("onClick", increment )
-		 			console.log("after event gets added")
-		 		}
-		 		, 1000
-		 	)*/
-
 		 	return(
 			 	<div>
 			 		<ProjectView project={this.state.projects[this.state.selectedProject]}/>
@@ -98,6 +90,16 @@ class Home extends React.Component {
 		 	)
 		 }	
 		 else if (this.props.location.pathname === "/"){
+		 	const searched = localStorage.getItem('searchedProject')
+		 	if (searched in this.state.projects){
+		 		console.log("reached")
+		 		return(
+				 	<div>
+						<ProjectView project={this.state.projects[localStorage.getItem('searchedProject')]}/>
+					</div>
+				)
+			}
+			else{
 			 return(
 			 	<div id="MainView">
 			 		<h1 className = "Header"> Project Share </h1>
@@ -120,6 +122,7 @@ class Home extends React.Component {
 				</div>
 			)
 		}
+	 }
 	}
 }
 

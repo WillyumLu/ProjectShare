@@ -1,6 +1,6 @@
 import React from 'react';
 import './Project.css'
-import { Avatar, Layout, List, Card, Carousel} from 'antd';
+import { Avatar, Layout, List, Card, Carousel, Button} from 'antd';
 import { Link } from 'react-router-dom';
 const log = console.log
 
@@ -15,14 +15,16 @@ class Project extends React.Component {
 	}
 	onItemClick(event) {
 		/*for the div that was clicked, send an object of it's info back to the Home component*/
-		/*const data = {title: e.target}*/
-		this.props.sendSelectedProject(event.target.innerHTML);
+		this.props.sendSelectedProject(this.project.title);
 	}
 	render() {
 
 		return(
 			<div className="project">
-				<Card title = {this.project.title} style = {{margin: "10px", float: "left", hoverable: true, width: 900}}>
+				<Card id="card" title = {this.project.title} style = {{margin: "10px", float: "left", hoverable: true, width: 900}}>
+					<Link to={'/projectView'}>
+						<Button type="dashed" id="viewButton" onClick = {this.onItemClick}>View</Button>
+					</Link>
 					<Carousel autoplay>
 						<div class="slideImage">
 							<img src={this.project.image1}/>
