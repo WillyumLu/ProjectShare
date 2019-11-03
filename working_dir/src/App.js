@@ -2,11 +2,14 @@ import React from 'react';
 import { Route, Switch, BrowserRouter } from 'react-router-dom';
 /*the main page*/
 import Home from './Home'
-import Nevigation from './nevigation';
+import Navigation from './navigation';
 import './style.css';
 import LoginBox from './login'
 import UserView from './UserView'
 import AdminView from './AdminView'
+
+localStorage.setItem('loggedIn', false)
+
 
 /* main app component*/
 class App extends React.Component {
@@ -15,7 +18,7 @@ class App extends React.Component {
 		return(
 			<div>
 				<BrowserRouter>
-					<Nevigation title="Nevigation"/>
+					<Navigation title="Navigation"/>
 				    <Switch> { /* Similar to a switch statement - shows the component depending on the URL path */ }
 		            { /* Each Route below shows a different component depending on the exact path in the URL  */ }
 		            <Route exact path='/' component={Home}/>

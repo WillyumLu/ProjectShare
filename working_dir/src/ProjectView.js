@@ -6,7 +6,13 @@ class ProjectView extends React.Component {
 	constructor(props){
 		super(props)
 		this.project = this.props.project;
+		this.increment = this.increment.bind(this)
+		this.state = {project: this.project, likes: this.props.project.likes}
 		log(this.project)
+	}
+	increment(event) {
+			this.project.likes+=1
+			this.setState({ likes: this.project.likes });
 	}
 	render() {
 
@@ -17,8 +23,9 @@ class ProjectView extends React.Component {
 				<div className="info">{this.project.status}</div>
 				<div className="info">members of the project</div>
 				<div className="info">contact info for each of those members</div>
+				<div className="info">likes: {this.state.likes}</div>
 				<div className="info">other information that may not have fit into the project icon in the main view</div>
-				<div className="LikeButton">Like Button</div>
+				<button id="LikeButton" onClick = {this.increment}>Like Button</button>
 				<div className="Request">Request to join</div>
 			</div>
 			)

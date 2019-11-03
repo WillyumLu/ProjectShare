@@ -51,7 +51,6 @@ class LoginBox extends React.Component{
                 log("login successful");
                 if (userData[i].type === "user"){this.props.history.push("/user");}
                 else {this.props.history.push("/admin");}
-                    
                 }
                 else{
                     //username and password not match
