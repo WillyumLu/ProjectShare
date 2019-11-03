@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "antd": "^3.24.2",
+    "rc-queue-anim": "^1.8.2",
     "react": "^16.10.2",
     "react-center": "^1.1.1",
     "react-dom": "^16.10.2",
