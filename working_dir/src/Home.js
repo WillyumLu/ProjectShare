@@ -107,7 +107,6 @@ class Home extends React.Component {
 			else{
 			 return(
 			 	<div id="MainView">
-			 		<Center>
 			 		<div className = "ProjectContainer">
 					{
 						Object.keys(this.state.projects).map((project) => {
@@ -122,7 +121,6 @@ class Home extends React.Component {
 						})
 					}
 					</div>
-					</Center>					
 				</div>
 			)
 		}
