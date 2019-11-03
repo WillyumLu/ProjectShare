@@ -9,6 +9,7 @@ import UserView from './UserView'
 
 localStorage.setItem('loggedIn', false)
 
+
 /* main app component*/
 class App extends React.Component {
 	render() {
