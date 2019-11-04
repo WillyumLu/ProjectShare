@@ -21,5 +21,7 @@ Allusers:
 
 Logged-in Users:
 - Create a project and post in in landing page.
+- Delete existing projects
 - Navigate to their profile via "profile" button in top right corner of page.
-- Edit personal information in profile page (admins can delete existing projects)
+- Edit personal information in profile page, including uploading profile image, changing password and username. 
+- Admins can delete existing projects and users, edit project and user information
