@@ -129,15 +129,8 @@ class SettingProfileForm extends React.Component{
                 offset: 3,
               },
             },
-          }; 
-          
-          const uploadButton = (
-            <div style = {{left: "50px"}}>
-              <Icon type={this.state.loading ? 'loading' : 'plus'} />
-              <div className="ant-upload-text">Upload</div>
-            </div>
-          );
-        
+          };           
+         
         return(           
                    
         <Form onSubmit={this.handleSubmit}>
@@ -476,7 +469,7 @@ class UserView extends React.Component{
                         style={{top: '50px',width: "70%", height: "80%", float:"left" }}
                         tabList={tabList}
                         activeTabKey={this.state.key}
-                        tabBarExtraContent={<a href="#">More</a>}
+                        tabBarExtraContent={<a href="">More</a>}
                         onTabChange={key => {
                             this.onTabChange(key, 'key');
                         }}

@@ -541,7 +541,7 @@ class ModalUserUpdater extends React.Component{
     }    
 
 }
-const UpdateUserForm = Form.create()(ModalUserUpdater)
+const UpdateUserForm = Form.create({ name: 'user_modal' })(ModalUserUpdater)
 class UserManager extends React.Component{
     state = {
         visible: false,        
@@ -604,7 +604,7 @@ class UserManager extends React.Component{
                 title: "User Name",
                 dataIndex: 'userName',
                 key: 'userName',                
-                render: text => <a>{text}</a>
+                render: text => <a href="">{text}</a>
             },
 
             {
@@ -618,7 +618,7 @@ class UserManager extends React.Component{
                 dataIndex: 'type',
                 key: 'userType',
                 render: type => 
-                    <Tag color={type === 'user'? 'blue': 'gold'} key={type}>
+                    <Tag color={type === 'user'? 'blue': 'gold'}>
                         {type.toUpperCase()}
                     </Tag>
                    
@@ -648,13 +648,12 @@ class UserManager extends React.Component{
         ];
         return(
             <div>
-                <Table columns={columns} dataSource={websiteData.users}/>
+                <Table columns={columns} dataSource={websiteData.users} rowKey = "userId"/>
                 <UpdateUserForm
                     wrappedComponentRef={this.saveFormRef}
                     visible={this.state.visible}
                     onCancel={this.cancel}
-                    onUpdate={this.onSubmit}
-                    handleChange = {this.handleInputChange}
+                    onUpdate={this.onSubmit}                    
                 />              
             </div>
         )
@@ -704,7 +703,7 @@ class ModalProjUpdater extends React.Component{
 
 }
 
-const UpdateProjForm = Form.create()(ModalProjUpdater)
+const UpdateProjForm = Form.create('proj_modal')(ModalProjUpdater)
 
 class ProjManager extends React.Component{
     state = {
@@ -768,7 +767,7 @@ class ProjManager extends React.Component{
                 title: "Project Title",
                 dataIndex: 'title',
                 key: 'title',                
-                render: text => <a>{text}</a>
+                render: text => <a href="">{text}</a>
             },
 
             {
@@ -782,7 +781,7 @@ class ProjManager extends React.Component{
                 dataIndex: 'status',
                 key: 'status',
                 render: status => 
-                    <Tag color={status === 'in progress'? 'green': 'blue'} key={status}>
+                    <Tag color={status === 'in progress'? 'green': 'blue'}>
                         {status.toUpperCase()}
                     </Tag>
                    
@@ -792,7 +791,7 @@ class ProjManager extends React.Component{
                 title: "Creator",
                 dataIndex: 'creator',
                 key: 'creator', 
-                render: text => <a>{text}</a>              
+                render: text => <a href="">{text}</a>              
             },
 
            {
@@ -813,7 +812,7 @@ class ProjManager extends React.Component{
         ];
         return(
             <div>
-                <Table columns={columns} dataSource={websiteData.projects}/>
+                <Table columns={columns} dataSource={websiteData.projects} rowKey="id"/>
                 <UpdateProjForm
                     wrappedComponentRef={this.saveFormRef}
                     visible={this.state.visible}
