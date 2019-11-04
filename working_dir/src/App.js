@@ -7,6 +7,7 @@ import './style.css';
 import LoginBox from './login'
 import UserView from './UserView'
 import AdminView from './AdminView'
+import SignUpBox from './SignUp'
 
 localStorage.setItem('loggedIn', false)
 
@@ -26,6 +27,7 @@ class App extends React.Component {
 					<Route exact path='/user' component={UserView}/>
 					<Route exact path='/admin' component={AdminView}/>
 					<Route exact path='/projectView' component={Home}/>
+					<Route exact path='/signup' component={SignUpBox}/>
 	          	  </Switch>
 	        	</BrowserRouter>
 			</div>

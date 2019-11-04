@@ -49,6 +49,7 @@ class LoginBox extends React.Component{
                 //redirect to the user profile page
 
                 log("login successful");
+                localStorage.setItem('loggedIn', true)
                 if (userData[i].type === "user"){this.props.history.push("/user");}
                 else {this.props.history.push("/admin");}
                 }

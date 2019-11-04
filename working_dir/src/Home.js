@@ -70,12 +70,14 @@ class Home extends React.Component {
 
 	receiveSelectedProject = (projectData) => {
       this.setState({selectedProject: projectData})
+      console.log(this.state.selectedProject)
 	}
 
+	/*
 	receiveSearchRequest = function() {
 		this.setState({projects: this.projects})
 	}
-	/*
+	
 	localStorage.setItem('sendSearchRequest', receiveSearchRequest)
 	*/
 
@@ -95,16 +97,6 @@ class Home extends React.Component {
 		 	)
 		 }	
 		 else if (this.props.location.pathname === "/"){
-		 	const searched = localStorage.getItem('searchedProject')
-		 	if (searched in this.state.projects){
-		 		console.log("reached")
-		 		return(
-				 	<div>
-						<ProjectView project={this.state.projects[localStorage.getItem('searchedProject')]}/>
-					</div>
-				)
-			}
-			else{
 			 return(
 			 	<div id="MainView">
 			 		<div className = "ProjectContainer">
@@ -124,7 +116,7 @@ class Home extends React.Component {
 				</div>
 			)
 		}
-	 }
+	 
 	}
 }
 

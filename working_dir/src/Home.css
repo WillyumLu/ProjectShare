@@ -24,3 +24,70 @@
 	margin-top: 100px;
 	text-align: center;
 }
+.projectImage {
+	width: 200px;
+	height: 60px;
+	margin-top: 10px;
+	margin-left: 20px;
+	float: left;
+}
+.userList{
+	width: 500px;
+	margin-left: 440px;
+}
+.user{
+	margin-top:10px;
+	height: 90px;
+}
+.userIconContainer {
+
+	/* Add properties below */
+	width: 100px;
+	height: 100px;
+	float: left;
+}
+.userIcon {
+	border-radius: 50%;
+}
+.userListHeader {
+	text-align: center;
+	border-bottom: 1px solid grey;
+}
+.projectInfo {
+	margin-left: 20px;
+	margin-top:100px;
+}
+.statusIcon {
+	margin-left: 10px;
+}
+.statusInfo{
+	float:left;
+	margin-top: 2px;
+	margin-right: 10px;
+}
+.infoHeader{
+
+}
+.para{
+	margin-left: 20px;
+	width: 1000px;
+}
+.aboutHeader{
+	margin-left: 20px;
+}
+.request{
+	margin-left: 20px;
+	margin-bottom: 20px;
+}
+.likeButtonContainer {
+	position: absolute;
+	top: 394px;
+	left: 20px;
+	float:left;
+}
+.numLikes{
+	position: absolute;
+	top: 394px;
+	left: 100px;
+	font-size: 22px
+}
