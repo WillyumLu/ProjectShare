@@ -3,17 +3,22 @@
 	top: 10px;
 	right: 20px;
 }
-.ProjectContainer {
-	position: absolute;
-	/*text-align: center;*/
-	top: 100px;
-
-}
 .Header {
 	text-align: center;
 }
 .info {
 	text-align: center;
+}
+#newProject {
+	position: flex;
+	margin-top: 10px;
+	margin-right: 20px;
+	width: 30%;
+	float: right;
+}
+#uploadButton {
+	display: inline-block;
+	margin: 10px;
 }
 #LikeButton {
 	position: absolute;
@@ -23,4 +28,17 @@
 .Request {
 	margin-top: 100px;
 	text-align: center;
+}
+
+.outer {
+    width: 0px; /* Or zero, or something very small */
+    margin: auto;
+	overflow: visible;
+	display: inline-block;
+}
+.inner {
+	display: inline-block;
+	top: 100px;
+	margin-right: 10px;
+	margin-left: 20px;
 }

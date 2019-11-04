@@ -8,7 +8,7 @@ import LoginBox from './login'
 import UserView from './UserView'
 import AdminView from './AdminView'
 
-localStorage.setItem('loggedIn', false)
+localStorage.setItem('loggedIn', "false")
 
 
 /* main app component*/
