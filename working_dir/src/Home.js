@@ -194,6 +194,7 @@ class Home extends React.Component {
 	}
 	publish	= () => {
 		allProjects[projectData.id] = projectData;
+		projectData.id+=1
 		this.setState({projects: allProjects})
 	}
 	/*
