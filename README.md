@@ -22,4 +22,4 @@ Allusers:
 Logged-in Users:
 - Create a project and post in in landing page.
 - Navigate to their profile via "profile" button in top right corner of page.
-- Edit personal information (admins can delete existing projects)
+- Edit personal information in profile page (admins can delete existing projects)
