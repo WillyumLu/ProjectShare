@@ -9,7 +9,7 @@ import UserView from './UserView'
 import AdminView from './AdminView'
 import SignUpBox from './SignUp'
 
-localStorage.setItem('loggedIn', false)
+localStorage.setItem('loggedIn', "false")
 
 
 /* main app component*/

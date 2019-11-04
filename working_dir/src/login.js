@@ -51,6 +51,7 @@ class LoginBox extends React.Component{
                 log("login successful");
                 localStorage.setItem('loggedIn', true)
                 if (userData[i].type === "user"){this.props.history.push("/user");}
+
                 else {this.props.history.push("/admin");}
                 }
                 else{

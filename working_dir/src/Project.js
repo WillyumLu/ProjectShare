@@ -51,30 +51,30 @@ class Project extends React.Component {
 
 		return(
 			<div className="project">
-				<Card id="card" title = {this.project.title} style = {{"border-radius": "1%", margin: "10px", float: "left", hoverable: true, width: 900}}>
+				<Card id="card" title = {this.project.title} style = {{"borderRadius": "1%", margin: "10px", float: "left", hoverable: true, width: 900}}>
 					<Link to={'/projectView'}>
 						<Button type="dashed" id="viewButton" onClick = {this.onItemClick}>View</Button>
 					</Link>
 					<Carousel autoplay>
-						<div class="slideImage">
+						<div className="slideImage">
 							<img src={this.project.image1}/>
 						</div>
-						<div class="slideImage">
+						<div className="slideImage">
 							<img src={this.project.image2}/>
 						</div>
-						<div class="slideImage">
+						<div className="slideImage">
 							<img src={this.project.image3}/>
 						</div>
 					</Carousel>
-					<div class="startDate">
+					<div className="startDate">
 						<Icon type="file-text" />
 						{" "} Start Date: {this.project.start_date}
 					</div>
-					<div class="likes">
+					<div className="likes">
 						<Icon type="like" />
 						{" "} Likes: {this.project.likes}
 					</div>
-					<div class="progress">
+					<div className="progress">
 						<Popover content={<div>
 											<p>{this.getContent(this.project.status)}</p>
 										</div>} 
