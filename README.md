@@ -19,10 +19,10 @@ A few things need to happen first:
 - npm install (in \client folder)
 - cd client (go into client folder)
 - npm run build (in \client folder)
-- # During development, run the following commands for your app to reflect any changes in the code. Make sure mongo is running on a separate terminal.
+- "#" During development, run the following commands for your app to reflect any changes in the code. Make sure mongo is running on a separate terminal.
   - npm run build (in \client folder)
   - node server.js (start server again)
-- # create Mongo database and run Express server in the root directory (working_dir)
+- "#" create Mongo database and run Express server in the root directory (working_dir)
   - mkdir mongo-data (all database values lives here i think)
   
 #### Run it
