@@ -11,6 +11,9 @@
     2. handle a signup request which adds a users with username, pw, and type ("user"/admin") to database
       - this is not yet linked with front-end code, so u have to send the .post(/signup) request via postman
       - u need to use this signup request to add some users when u first run it (setup instruction below)
+  - database:
+    1. has 1 schema called User, which has attributes username, password, and type
+    2. need to add projects schema
       
 ## to run the code
 #### Setup
