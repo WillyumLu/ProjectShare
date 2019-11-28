@@ -59,7 +59,9 @@ class LoginBox extends React.Component{
             .then(res => {
                 if (res.status === 200) {
                     // this is saved in local storage for now, need to use session and cookie
-                    localStorage.setItem('loggedIn', true)
+                    localStorage.setItem('loggedIn', "true")
+                    log("res.status === 200")
+                    log(res.json);
                     return res.json();
                 }
             })
@@ -75,7 +77,7 @@ class LoginBox extends React.Component{
 
                     // setState("currentUser", json.currentUser);
                 } else {
-                    this.setState({usernameErr: "The user does not exist"});
+                    this.setState({usernameErr: "Wrong username or password"});
                 }
             })
             .then( () => {
