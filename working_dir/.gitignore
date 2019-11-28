@@ -4,4 +4,4 @@ node_modules/
 
 ./mongo-data
 
-client/build/*
+client/build
