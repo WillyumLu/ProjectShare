@@ -43,76 +43,66 @@ class LoginBox extends React.Component{
     submitLogin(e) {
         this.cleanErr();
 
-        const reqBody = {"username": this.state.username, "password": this.state.password};
-        const request = new Request("/login", {
-            method: "post",
-            body: JSON.stringify(reqBody),
-            headers: {
-                Accept: "application/json, text/plain, */*",
-                "Content-Type": "application/json"
+        let loginPromise = login(this.state.username, this.state.password)
+        var that = this;
+        loginPromise.then(function(result) {
+            if (result) {
+                that.props.history.push("/"+result.type)
+            } else {
+                that.setState({usernameErr: "Wrong username or password"});
             }
-        });
-        log(this.state);
-        console.log("created request")
-        // Send the request with fetch()
-        fetch(request)
-            .then(res => {
-                if (res.status === 200) {
-                    // this is saved in local storage for now, need to use session and cookie
-                    localStorage.setItem('loggedIn', "true")
-                    log("res.status === 200")
-                    log(res.json);
-                    return res.json();
-                }
-            })
-            .then(json => {
-                if (localStorage.getItem('loggedIn') === "true") {
-                    console.log("found user should log in")
-                    console.log(json)
-                    if (json.type === "admin"){
-                        this.props.history.push("/admin");
-                    } else {
-                        this.props.history.push("/user");
-                    }
-
-                    // setState("currentUser", json.currentUser);
-                } else {
-                    this.setState({usernameErr: "Wrong username or password"});
-                }
-            })
-            .then( () => {
-                const loggedin =localStorage.getItem('loggedIn');
-            })
-            .catch(error => {
-                log("error")
-                console.log(error);
-            });
+         })
 
 
-        // for (let i = 0; i < userData.length; i++){
-        //     if (userData[i].name === this.state.username){
-        //         if (userData[i].password === this.state.password){
-        //         //redirect to the user profile page
 
-        //         log("login successful");
-        //         localStorage.setItem('loggedIn', true)
-        //         if (userData[i].type === "user"){this.props.history.push("/user");}
-
-        //         else {this.props.history.push("/admin");}
+        // const reqBody = {"username": this.state.username, "password": this.state.password};
+        // const request = new Request("/login", {
+        //     method: "post",
+        //     body: JSON.stringify(reqBody),
+        //     headers: {
+        //         Accept: "application/json, text/plain, */*",
+        //         "Content-Type": "application/json"
+        //     }
+        // });
+        // log(this.state);
+        // console.log("created request")
+        // // Send the request with fetch()
+        // fetch(request)
+        //     .then(res => {
+        //         if (res.status === 200) {
+        //             // this is saved in local storage for now, need to use session and cookie
+        //             localStorage.setItem('loggedIn', "true")
+        //             log("res.status === 200")
+        //             log(res.json);
+        //             return res.json();
         //         }
-        //         else{
-        //             //username and password not match
-        //             log('passwordErr')
-        //             this.setState({passwordErr: "Your username and password don't match"});
-        //             return;
-        //         }
-        //     }            
+        //     })
+        //     .then(json => {
+        //         if (localStorage.getItem('loggedIn') === "true") {
+        //             console.log("found user should log in")
+        //             console.log(json)
+        //             if (json.type === "admin"){
+        //                 this.props.history.push("/admin");
+        //             } else {
+        //                 this.props.history.push("/user");
+        //             }
 
-        // } 
-        
-        //user does not exist
+        //             // setState("currentUser", json.currentUser);
+        //         } else {
+        //             this.setState({usernameErr: "Wrong username or password"});
+        //         }
+        //     })
+        //     .then( () => {
+        //         const loggedin =localStorage.getItem('loggedIn');
+        //     })
+        //     .catch(error => {
+        //         log("error")
+        //         console.log(error);
+        //     });
+
                   
     }
+    
     render(){
         return(
             <div className="box-container">

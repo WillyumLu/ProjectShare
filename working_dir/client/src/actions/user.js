@@ -1,7 +1,7 @@
 import { setState, setEmptyState } from "./helpers";
 // getState is used to get the value of a state path
 import { getState } from "statezero";
-
+const log = console.log
 export const readCookie = () => {
     const url = "/users/check-session";
 
@@ -28,20 +28,24 @@ export const updateLoginForm = field => {
 
 export const login = (username, password) => {
     // Create our request constructor with all the parameters we need
-    const request = new Request("/users/login", {
+    const reqBody = {"username": username, "password": password};
+    const request = new Request("/login", {
         method: "post",
-        body: {"username": username, "password": password},
+        body: JSON.stringify(reqBody),
         headers: {
             Accept: "application/json, text/plain, */*",
             "Content-Type": "application/json"
         }
     });
-
+    log("created request")
     // Send the request with fetch()
-    fetch(request)
+    return fetch(request)
         .then(res => {
             if (res.status === 200) {
-                localStorage.setItem('loggedIn', true)
+                // this is saved in local storage for now, need to use session and cookie
+                localStorage.setItem('loggedIn', "true")
+                log("res.status === 200")
+                log(res.json);
                 return res.json();
             }
         })
@@ -49,12 +53,16 @@ export const login = (username, password) => {
             if (localStorage.getItem('loggedIn') === "true") {
                 console.log("found user should log in")
                 console.log(json)
+                return(json)
+
                 // setState("currentUser", json.currentUser);
-            }
+            } 
         })
         .catch(error => {
+            log("error")
             console.log(error);
         });
+
 };
 
 export const logout = () => {
