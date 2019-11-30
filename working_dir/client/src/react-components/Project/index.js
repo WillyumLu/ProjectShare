@@ -45,7 +45,7 @@ class Project extends React.Component {
 	}
 	onItemClick(event) {
 		/*for the div that was clicked, send an object of it's info back to the Home component*/
-		this.props.sendSelectedProject(this.project.id);
+		this.props.sendSelectedProject(this.project.title);
 	}
 	render() {
 

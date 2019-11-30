@@ -56,7 +56,7 @@ UserSchema.statics.findByUsernamePassword = function(username, password) {
 	// First find the user by their username
 	return User.findOne({ username: username }).then((user) => {
 		if (!user) {
-			console.log("didnot find user in user DB")
+			console.log("did not find user in user DB")
 			return Promise.reject()  // a rejected promise
 		}
 		// if the user exists, make sure their password is correct

@@ -1,9 +1,11 @@
 import React from 'react';
+import BaseReactComponent from "./../BaseReactComponent";
 import Project from './../Project';
 import ProjectView from './../ProjectView'
 import {message, Icon, Upload, Card, Input, Button} from 'antd';
 import { uid } from 'react-uid';
 import './Home.css';
+import { updateProjectList } from "./../../actions/project"
 import { isPromiseAlike } from 'q';
 import Navigation from '../Navigation'
 
@@ -14,7 +16,7 @@ const global_project_0 = {
 	title: "Project Share",
 	start_date: "2019-09-29",
 	status: "in progress",
-	likes: 3,
+	likes: 0,
 	image1: require('./projimg.jpg'),
 	image2: require('./projimg.jpg'),
 	image3: require('./southeast.jpg')
@@ -24,7 +26,7 @@ const global_project_1 = {
 	title: "Project2",
 	start_date: "000000-MM-DD",
 	status: "deployed",
-	likes: 0,
+	likes: 1,
 	image1: require('./chip.jpg'),
 	image2: require('./projimg.jpg'),
 	image3: require('./userprofile.jpg')
@@ -34,17 +36,17 @@ const global_project_2 = {
 	title: "Project3",
 	start_date: "000000-MM-DD",
 	status: "complete",
-	likes: 0,
+	likes: 2,
 	image1: require('./projimg.jpg'),
 	image2: require('./projimg.jpg'),
 	image3: require('./southeast.jpg')
 }
 const global_project_3 = {
-	id: 2,
-	title: "Project3",
+	id: 3,
+	title: "Project4",
 	start_date: "1999-11-14",
 	status: "in progress",
-	likes: 0,
+	likes: 3,
 	image1: require('./projimg.jpg'),
 	image2: require('./projimg.jpg'),
 	image3: require('./southeast.jpg')
@@ -157,14 +159,19 @@ class UploadProjectPicture extends React.Component{
     }    
 }
 
-class Home extends React.Component {
+class Home extends BaseReactComponent {
+
+	filterState({ projectList }) {
+        return { projectList };
+    }
 
 	constructor(props) { // When the componenet is created,  calls load data
 		super(props)
+		updateProjectList()
 	  	this.state = {projects: allProjects,
 						selectedProject: null,
 					}
-	  }
+	}
 
 	receiveSelectedProject = (projectData_) => {
       this.setState({selectedProject: projectData_})
@@ -208,12 +215,14 @@ class Home extends React.Component {
 	}*/
 
 	render() {
+		const { projectList } = this.state;
 		 if(this.props.location.pathname === "/projectView"){
+			 const title = this.state.selectedProject;
 		 	console.log(this.state.selectedProject)
 		 	console.log(this.state.projects[this.state.selectedProject])
 		 	return(
 			 	<div>
-			 		<ProjectView project={this.state.projects[this.state.selectedProject]}/>
+			 		<ProjectView project={(projectList.filter((project)=>project.title === title))[0]}/>
 			 	</div>
 		 	)
 		 }	
@@ -228,17 +237,17 @@ class Home extends React.Component {
 				)
 			}
 			else{
+
 			 return(
 			 	<div id="MainView">
 			 	 <Navigation title = "Navigation"/>
 				 <div className="outer">
 			 		<div className="inner">
 					{
-						Object.keys(this.state.projects).map((project) => {
+						projectList.map((project) => {
 							return(
 								<Project key={uid(project)}
-								         project = {this.state.projects[project]}
-								         increment = {this.increment}
+								         project = {project}
 								         sendSelectedProject = {this.receiveSelectedProject}
 								/>
 								)

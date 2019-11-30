@@ -11,6 +11,7 @@ const { mongoose } = require('./db/mongoose')
 
 // import the mongoose models
 const { User } = require('./models/user')
+const { Project } = require('./models/project')
 
 // to validate object IDs
 const { ObjectID } = require('mongodb')
@@ -100,8 +101,52 @@ app.get("/users/check-session", (req, res) => {
     } else {
         res.status(401).send();
     }
+})
+
+// save a project
+app.post('/addProject', (req, res) => {
+    const project = new Project({
+        title: req.body.title,
+        start_date: req.body.start_date,
+        status: req.body.status,
+        likes: req.body.likes,
+        image1: req.body.image1,
+        image2: req.body.image2,
+        image3: req.body.image3
+    })
+    project.save().then(
+        project => {
+            res.status(200).send({ project: project });
+        },
+        error => {
+            res.status(400).send(error); // 400 for bad request
+        }
+    );
 });
 
+app.get('/allProjects', (req, res) => {
+    Project.find().then(
+        projects => {
+            log();
+            res.send({ projects }); // can wrap in object if want to add more properties
+        },
+        error => {
+            res.status(500).send(error); // server error
+        }
+    );
+
+});
+
+app.post('/findProject', (req, res) => {
+    Project.findByTitle(req.body.title)
+    .then((project) => {
+        log("I FOUND ITTTTTTTTTTTTT")
+        res.status(200).send({ project: project });
+    }).catch((error) => {
+        log("OH NO")
+		res.status(404).send(error)
+    })
+});
 
 /*** Webpage routes below **********************************/
 // Serve the build
