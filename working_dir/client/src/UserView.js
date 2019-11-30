@@ -25,6 +25,12 @@ const userdata = {
                 {id: 2, title: "Project3", avatar: null, status: "complete"}]
 }
 
+function getBase64(img, callback) {
+    const reader = new FileReader();
+    reader.addEventListener('load', () => callback(reader.result));
+    reader.readAsDataURL(img);
+}
+
 //check if a file uploaded is valid
 //Change it in phase 2
 function beforeUpload(file) {
@@ -36,20 +42,28 @@ function beforeUpload(file) {
     if (!isLt10M) {
       message.error('Image must smaller than 10MB!');
     }
-    const newImagePath = './' + file.name;
-    //require(newImagePath) don't work, for dynamic file name it needs context.
-    let assetRequire = require.context('./', true, /\.(png|jpg|svg)$/)   
-    userdata.profileImage = assetRequire(newImagePath);
-
-    //for phase 1 it always returns false to prevent default behaviour try to make a sever call
-    return false;
+    
+    return isJpgOrPng && isLt10M
   }
    
 
 class UploadProfilePicture extends React.Component{
     state = {loading: false}
-    handleChange = (pic) => {
-        //add in Phase 2        
+    handleChange = (info) => {
+        if (info.file.status === 'uploading') {
+            this.setState({ loading: true });
+            return;
+        }
+
+        if (info.file.status === 'done'){
+            getBase64(info.file.originFileObj, imageUrl =>
+                this.setState({
+                  imageUrl,
+                  loading: false,
+                }),
+              );
+        }
+
     }
 
     render() {
@@ -67,7 +81,9 @@ class UploadProfilePicture extends React.Component{
             name="avatar"
             listType="picture-card"
             className="avatar-uploader"
-            showUploadList={true}  
+            showUploadList={false}  
+            action = '/upload/avatar'
+            method = 'post'
             beforeUpload={beforeUpload}
             onChange={this.handleChange}
             >

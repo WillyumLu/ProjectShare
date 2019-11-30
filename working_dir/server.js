@@ -6,8 +6,22 @@ const express = require('express')
 // starting the express server
 const app = express();
 
+const multipart = require('connect-multiparty');
+
+const fs = require('fs');
+
+const path = require('path');
+
 // mongoose and mongo connection
 const { mongoose } = require('./db/mongoose')
+
+// using GridFS to store file
+
+const db = mongoose.connection
+let gfs;
+db.once("open", function() {
+    gfs = new mongoose.mongo.GridFSBucket(db.db);
+});
 
 // import the mongoose models
 const { User } = require('./models/user')
@@ -22,6 +36,17 @@ app.use(bodyParser.json())
 // express-session for managing user sessions
 const session = require('express-session')
 app.use(bodyParser.urlencoded({ extended: true }));
+
+function putFile(path, name, callback) {
+    var writestream = GridFS.createWriteStream({
+        filename: name
+    });
+    writestream.on('close', function (file) {
+      callback(null, file);
+    });
+    fs.createReadStream(path).pipe(writestream);
+}
+
 
 /*** Session handling **************************************/
 // Create a session cookie
@@ -83,6 +108,18 @@ app.post("/signup", (req, res) => {
 
 });
 
+app.post("/upload/avatar", multipart(), (req, res) => {
+    log(req.files)
+    const filename = req.files.avatar.originalFilename || path.basename(req.files.avatar.path);
+    const writeStream = gfs.openUploadStream(filename)
+    fs.createReadStream(req.files.avatar.path).pipe(writeStream)
+    writeStream.on('finish', function (file) {
+        res.send(`File has been uploaded ${file._id}`);
+    });
+    writeStream.on('error', () => {
+        return res.status(500).json({ message: "Error uploading file" });
+      });
+})
 
 
 /*** Webpage routes below **********************************/
