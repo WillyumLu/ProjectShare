@@ -28,10 +28,45 @@ export const updateLoginForm = field => {
 
 export const login = (username, password) => {
     // Create our request constructor with all the parameters we need
-    const reqBody = {"username": username, "password": password};
     const request = new Request("/login", {
         method: "post",
-        body: JSON.stringify(reqBody),
+        body: JSON.stringify(getState("loginForm")),
+        headers: {
+            Accept: "application/json, text/plain, */*",
+            "Content-Type": "application/json"
+        }
+    });
+    log("created request")
+    // Send the request with fetch()
+    fetch(request)
+        .then(res => {
+            if (res.status === 200) {
+                // this is saved in local storage for now, need to use session and cookie
+                localStorage.setItem('loggedIn', "true")
+                console.log(localStorage.getItem('loggedIn'))
+                log("res.status === 200")
+                log(res.json);
+                return res.json();
+            }
+        })
+        .then(json => {
+            if (localStorage.getItem('loggedIn') === "true") {
+                if (json.currentUser !== undefined) {
+                    setState("currentUser", json.currentUser);
+                }
+            } 
+        })
+        .catch(error => {
+            log("error")
+            console.log(error);
+        });
+};
+
+export const signup = (username, password) => {
+    // Create our request constructor with all the parameters we need
+    const request = new Request("/signup", {
+        method: "post",
+        body: JSON.stringify(getState("loginForm")),
         headers: {
             Accept: "application/json, text/plain, */*",
             "Content-Type": "application/json"
@@ -62,7 +97,6 @@ export const login = (username, password) => {
             log("error")
             console.log(error);
         });
-
 };
 
 export const logout = () => {
