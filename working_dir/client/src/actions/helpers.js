@@ -12,6 +12,7 @@ import { action } from "statezero";
 export const setEmptyState = () => {
     setState("currentUser", null);
     setState("loginForm", { username: "", password: "" });
+    setState("projectList", []);
 };
 
 // Helper method to set a state path.
