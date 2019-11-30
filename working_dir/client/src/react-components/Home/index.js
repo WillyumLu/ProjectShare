@@ -5,6 +5,7 @@ import {message, Icon, Upload, Card, Input, Button} from 'antd';
 import { uid } from 'react-uid';
 import './Home.css';
 import { isPromiseAlike } from 'q';
+import Navigation from '../Navigation'
 
 var Center = require('react-center');
 
@@ -229,6 +230,7 @@ class Home extends React.Component {
 			else{
 			 return(
 			 	<div id="MainView">
+			 	 <Navigation title = "Navigation"/>
 				 <div className="outer">
 			 		<div className="inner">
 					{

@@ -30,7 +30,7 @@ app.use(session({
     resave: false,
     saveUninitialized: false,
     cookie: {
-        expires: 60000,
+        // expires: 60000,
         httpOnly: true
     }
 }));
@@ -39,7 +39,7 @@ app.use(session({
 // an active user on the session cookie (indicating a logged in user.)
 const sessionChecker = (req, res, next) => {
     if (req.session.user) {
-        res.redirect('/dashboard'); // redirect to dashboard if logged in.
+        res.redirect('/home'); // home to dashboard if logged in.
     } else {
         next(); // next() moves on to the route.
     }
@@ -54,6 +54,7 @@ app.post('/login', (req, res) => {
     User.findByUsernamePassword(username, password)
     .then((user) => {
         log("I FOUND ITTTTTTTTTTTTT")
+        req.session.user = username
         res.status(200).send({ currentUser: user.username, type: user.type });
     }).catch((error) => {
         log("NOOOOOOOOOPPPPPPPPPPPPPPPEEEEEEEE")
@@ -74,7 +75,7 @@ app.post("/signup", (req, res) => {
     // Save the user
     user.save().then(
         user => {
-            res.send(user);
+            res.status(200).send({ currentUser: user.username, type: user.type });
         },
         error => {
             res.status(400).send(error); // 400 for bad request
@@ -83,6 +84,23 @@ app.post("/signup", (req, res) => {
 
 });
 
+app.get("/logout", (req, res)=>{
+    req.session.destroy(error => {
+        if (error) {
+            res.status(500).send(error);
+        } else {
+            res.send()
+        }
+    });
+})
+
+app.get("/users/check-session", (req, res) => {
+    if (req.session.user) {
+        res.send({ currentUser: req.session.user });
+    } else {
+        res.status(401).send();
+    }
+});
 
 
 /*** Webpage routes below **********************************/

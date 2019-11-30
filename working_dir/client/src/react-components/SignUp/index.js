@@ -1,7 +1,7 @@
 import React from 'react';
 
 // Importing actions/required methods
-import {updateLoginForm, signup } from "../../actions/user";
+import {updateLoginForm, signup, alreadyHaveAccount} from "../../actions/user";
 
 import './SignUp.css';
 
@@ -48,6 +48,18 @@ class SignUpBox extends React.Component{
                             Sign Up
                         </button>        
                     </div>            
+                </div>
+                <div className="loginOption">
+                    <div className="OptionHeader"> 
+                        Already have an account?
+                    </div>
+                    <button
+                        type="button"
+                        className="login-btn"
+                        onClick={alreadyHaveAccount}                     
+                    >
+                        Switch to Login
+                    </button> 
                 </div>
             </div>
 
