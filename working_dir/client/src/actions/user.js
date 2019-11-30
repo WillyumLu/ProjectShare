@@ -1,6 +1,7 @@
 import { setState, setEmptyState } from "./helpers";
 // getState is used to get the value of a state path
 import { getState } from "statezero";
+import { set } from "mongoose";
 const log = console.log
 export const readCookie = () => {
     const url = "/users/check-session";
@@ -23,7 +24,7 @@ export const readCookie = () => {
 
 export const updateLoginForm = field => {
     const { name, value } = field;
-    setState(`loginForm.${name}`, value);
+    setState(`loginForm.${name}`, value)
 };
 
 export const login = (username, password) => {
@@ -43,17 +44,15 @@ export const login = (username, password) => {
             if (res.status === 200) {
                 // this is saved in local storage for now, need to use session and cookie
                 localStorage.setItem('loggedIn', "true")
+                log("setting current user")
                 console.log(localStorage.getItem('loggedIn'))
-                log("res.status === 200")
-                log(res.json);
                 return res.json();
             }
         })
         .then(json => {
             if (localStorage.getItem('loggedIn') === "true") {
-                if (json.currentUser !== undefined) {
-                    setState("currentUser", json.currentUser);
-                }
+                setState("currentUser", json.currentUser);
+                log(getState("currentUser"))
             } 
         })
         .catch(error => {
