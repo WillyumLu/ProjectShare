@@ -77,7 +77,7 @@ class UploadProfilePicture extends React.Component{
         
         return(
             <Upload
-            name="projimg"
+            name="avatar"
             listType="picture-card"
             className="avatar-uploader"
             action = '/upload/avatar'
