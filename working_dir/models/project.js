@@ -35,15 +35,15 @@ const ProjectSchema = new mongoose.Schema({
     },
     image1: { // THIS have to change into an object
         type: String,
-        required: true
+        required: false
     },
     image2: { // THIS have to change into an object
         type: String,
-        required: true
+        required: false
     },
     image3: { // THIS have to change into an object
         type: String,
-        required: true
+        required: false
     }
 })
 
