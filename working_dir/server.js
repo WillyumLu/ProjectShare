@@ -37,17 +37,6 @@ app.use(bodyParser.json())
 const session = require('express-session')
 app.use(bodyParser.urlencoded({ extended: true }));
 
-function putFile(path, name, callback) {
-    var writestream = GridFS.createWriteStream({
-        filename: name
-    });
-    writestream.on('close', function (file) {
-      callback(null, file);
-    });
-    fs.createReadStream(path).pipe(writestream);
-}
-
-
 /*** Session handling **************************************/
 // Create a session cookie
 app.use(session({
@@ -120,6 +109,22 @@ app.post("/upload/avatar", multipart(), (req, res) => {
         return res.status(500).json({ message: "Error uploading file" });
       });
 })
+
+app.get("/retrieve/avatar/:id", (req, res) => {
+    const fileId = req.params.id
+    log("Getting avatar with id:" + fileId)
+    const readStream = gfs.openDownloadStream(ObjectID(fileId))
+    readStream.on('data', function (data) {
+        res.send(data)
+    });
+    readStream.on('error', () => {
+        return res.status(404).json({ message: "Cannot find the file" });
+    });
+    readStream.on('end', () => {
+        return res.end();
+    });
+})
+
 
 
 /*** Webpage routes below **********************************/
