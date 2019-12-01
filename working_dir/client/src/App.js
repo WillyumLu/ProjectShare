@@ -28,7 +28,7 @@ class App extends BaseReactComponent {
 				    <Switch> { /* Similar to a switch statement - shows the component depending on the URL path */ }
 		            { /* Each Route below shows a different component depending on the exact path in the URL  */ }
 						<Route exact path='/' component={currentUser ? Home : LoginBox}/>
-						<Route exact path='/login' component={LoginBox}/>
+						<Route exact path='/login' component={currentUser ? Home : LoginBox}/>
 						<Route exact path='/user' component={UserView}/>
 						<Route exact path='/admin' component={AdminView}/>
 						<Route exact path='/projectView' component={Home}/>

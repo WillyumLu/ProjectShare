@@ -1,6 +1,4 @@
-import { setState, setEmptyState } from "./helpers";
-// getState is used to get the value of a state path
-import { getState } from "statezero";
+import { setState } from "./helpers";
 const log = console.log
 
 export const updateProjectList = () => {
@@ -27,15 +25,19 @@ export const addProject = (projectStruct) => {
     const request = new Request("/addProject", {
         method: "post",
         body: JSON.stringify(projectStruct),
+        headers: {
+            Accept: "application/json, text/plain, */*",
+            "Content-Type": "application/json"
+        }
     });
     log("add project requesting")
+    log(JSON.stringify(projectStruct))
     // Send the request with fetch()
     fetch(request)
         .then(res => {
             if (res.status === 200) {
-                // this is saved in local storage for now, need to use session and cookie
-                updateProjectList()
                 log(res.json);
+                updateProjectList()
             }
         })
         .catch(error => {
