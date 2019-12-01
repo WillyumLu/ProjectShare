@@ -37,29 +37,36 @@ export const login = (username, password) => {
             "Content-Type": "application/json"
         }
     });
-    log("created request")
+    log("created post /login request")
     // Send the request with fetch()
     fetch(request)
         .then(res => {
             if (res.status === 200) {
-                // this is saved in local storage for now, need to use session and cookie
-                localStorage.setItem('loggedIn', "true")
-                log("setting current user")
                 console.log(localStorage.getItem('loggedIn'))
                 return res.json();
             }
         })
         .then(json => {
-            if (localStorage.getItem('loggedIn') === "true") {
+            if (json.currentUser !== undefined) {
                 setState("currentUser", json.currentUser);
-                log(getState("currentUser"))
-            } 
+            }
         })
         .catch(error => {
+            console.log("set state")
+            setState('erorrMessage', true)
+            console.log(JSON.stringify(getState('errorMessage')))
             log("error")
             console.log(error);
         });
 };
+
+export const createAccount = () => {
+    setState("loginPath", false)
+}
+
+export const alreadyHaveAccount = () => {
+    setState("loginPath", true)
+}
 
 export const signup = (username, password) => {
     // Create our request constructor with all the parameters we need
@@ -71,26 +78,22 @@ export const signup = (username, password) => {
             "Content-Type": "application/json"
         }
     });
-    log("created request")
+    log("created post /signup request")
     // Send the request with fetch()
-    return fetch(request)
+    fetch(request)
         .then(res => {
             if (res.status === 200) {
-                // this is saved in local storage for now, need to use session and cookie
-                localStorage.setItem('loggedIn', "true")
-                log("res.status === 200")
-                log(res.json);
+                console.log("status === 200")
                 return res.json();
             }
         })
         .then(json => {
-            if (localStorage.getItem('loggedIn') === "true") {
-                console.log("found user should log in")
-                console.log(json)
-                return(json)
-
-                // setState("currentUser", json.currentUser);
-            } 
+            console.log(json.currentUser)
+            if (json.currentUser !== undefined) {
+                console.log("setting state")
+                setState("currentUser", json.currentUser);
+                console.log("state set")
+            }
         })
         .catch(error => {
             log("error")
@@ -99,7 +102,9 @@ export const signup = (username, password) => {
 };
 
 export const logout = () => {
-    const url = "/users/logout";
+    setState("currentUser", null)
+
+    const url =  "/logout";
 
     fetch(url)
         .then(res => {

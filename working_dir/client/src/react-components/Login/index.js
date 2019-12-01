@@ -1,14 +1,23 @@
 import React from 'react';
 
 // Importing actions/required methods
-import { updateLoginForm, login } from "../../actions/user";
-
+import { updateLoginForm, login, createAccount } from "../../actions/user";
+import BaseReactComponent from "../BaseReactComponent"
+import ErrorMessage from "../ErrorMessage"
 import './Login.css';
 
 const log = console.log
 
-class LoginBox extends React.Component{
+class LoginBox extends BaseReactComponent{
+
+    filterState({ errorMessage }) {
+        console.log("LoginBox is calling filter")
+        return { errorMessage };
+    }
+
     render(){
+        console.log("rendering login")
+        const { errorMessage } = this.state
         return(
             <div className="box-container">
                 <div className= "inner-container">
@@ -27,7 +36,6 @@ class LoginBox extends React.Component{
                                 onChange={e => updateLoginForm(e.target)}
                             />                       
                         </div>
-                       
 
                         <div className="input-group">
                             <label htmlFor="password" className="login-label">Password</label>
@@ -50,8 +58,24 @@ class LoginBox extends React.Component{
                         </button>        
                     </div>            
                 </div>
+                <small className = "login-err">
+                        {
+                            errorMessage ?  <ErrorMessage/> : ""
+                        }
+                </small>
+                <div className="signUpOption">
+                    <div className="OptionHeader"> 
+                        Don't have an account?
+                    </div>
+                    <button
+                        type="button"
+                        className="signup-btn"
+                        onClick={createAccount}                     
+                    >
+                        Create Account
+                    </button> 
+                </div>
             </div>
-
         )
     }
 }

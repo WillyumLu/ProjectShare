@@ -3,33 +3,30 @@ import { Menu, Icon, Input, Typography} from 'antd';
 import { Link } from 'react-router-dom';
 import 'antd/dist/antd.css';
 import { withRouter } from 'react-router-dom';
+import {logout} from "../../actions/user";
+import BaseReactComponent from '../BaseReactComponent'
+
+
 const { Title } = Typography;
 const { Search } = Input;
-class Navigation extends React.Component {
+class Navigation extends BaseReactComponent {
+
+  filterState({ currentUser }) {
+    console.log("Navigation Bar is calling filter")
+        return { currentUser };
+  }
+
   state = {
     current: 'mail',
   };
 
-  handleClick = e => {
-    console.log('click ', e);
-    this.setState({
-      current: e.key,
-    });
-  };
-
-  sendData = (value) => {
-    this.props.sendSearched(value)
-  }
-
   viewProfile = () => {
-    if(localStorage['loggedIn'] === 'true'){
-      this.props.history.push("/user");
-    }
+    this.props.history.push("/user");
   }
 
   render() {
     return (
-      <Menu onClick={this.handleClick} selectedKeys={[this.state.current]} mode="horizontal"  style={{'marginTop': 8, 'marginBottom': 8}}>
+      <Menu selectedKeys={[this.state.current]} mode="horizontal"  style={{'marginTop': 8, 'marginBottom': 8}}>
         <Menu.Item key="logo">
           <Link to={'/'}>
             <Icon type="home" style={{'font-size': 25}}/>
@@ -40,15 +37,8 @@ class Navigation extends React.Component {
             <Title level={3}>Project Share</Title>      
           </Link>
         </Menu.Item>
-        <Menu.Item key="LOGIN" id="floatRight">
-          <Link to={'/login'}>
-            LOGIN      
-					</Link>
-        </Menu.Item>
-        <Menu.Item key="SIGNUP" id="floatRight">
-        <Link to={'/signup'}>
-            SIGNUP      
-          </Link>
+        <Menu.Item key="LOGOUT" id="floatRight" onClick={logout}>
+            LOGOUT    
         </Menu.Item>
         <Menu.Item key="search" id="floatRight">
 				  <Search

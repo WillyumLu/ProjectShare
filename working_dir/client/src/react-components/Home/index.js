@@ -9,6 +9,7 @@ import { uid } from 'react-uid';
 import './Home.css';
 import { updateProjectList } from "./../../actions/project"
 import { isPromiseAlike } from 'q';
+import Navigation from '../Navigation'
 
 var Center = require('react-center');
 
@@ -239,6 +240,7 @@ class Home extends BaseReactComponent {
 
 			 return(
 			 	<div id="MainView">
+			 	 <Navigation title = "Navigation"/>
 				 <div className="outer">
 			 		<div className="inner">
 					{
