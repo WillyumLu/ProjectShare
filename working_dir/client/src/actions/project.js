@@ -74,7 +74,7 @@ export const deleteProject = (projectID) => {
             log(error);
         });
 
-
+}
 export const search = (username, password) => {
     // Create our request constructor with all the parameters we need
     const request = new Request("/findFuzzyTitle", {
