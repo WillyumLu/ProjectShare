@@ -11,6 +11,7 @@ import Entry from './react-components/Entry'
 import { readCookie } from "./actions/user";
 
 import './style.css';
+import ProjectView from './react-components/ProjectView';
 
 /* main app component*/
 
@@ -37,7 +38,7 @@ class App extends BaseReactComponent {
 						<Route exact path='/' component={currentUser ? Home : Entry}/>
 						<Route exact path='/user' component={UserView}/>
 						<Route exact path='/admin' component={AdminView}/>
-						<Route exact path='/projectView' component={Home}/>
+						<Route exact path='/projectView' component={ProjectView}/>
 						</Switch>
 	        	</BrowserRouter>
 			</div>
