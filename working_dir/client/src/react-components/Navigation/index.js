@@ -5,7 +5,7 @@ import 'antd/dist/antd.css';
 import { withRouter } from 'react-router-dom';
 import {logout} from "../../actions/user";
 import BaseReactComponent from '../BaseReactComponent'
-
+import {search, updateSearchKeyWord} from "../../actions/search";
 
 const { Title } = Typography;
 const { Search } = Input;
@@ -46,12 +46,10 @@ class Navigation extends BaseReactComponent {
 			      enterButton="Search"
 			      style={{'verticalAlign': 'middle'}}
 			      onSearch={
-
-              value => {
-                console.log(value)
+              search
               }
-
-            }
+            onChange={e => updateSearchKeyWord(e.target)}
+            
 			    />
         </Menu.Item>
         <Menu.Item onClick = {this.viewProfile} key="VIEW PROFILE" id="floatRight">
