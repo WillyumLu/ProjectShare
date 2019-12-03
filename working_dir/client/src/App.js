@@ -3,7 +3,7 @@ import { Route, Switch, BrowserRouter } from 'react-router-dom';
 /*the main page*/
 import BaseReactComponent from './react-components/BaseReactComponent'
 import Home from './react-components/Home'
-import Navigation from './react-components/navigation';
+import Navigation from './react-components/Navigation';
 import UserView from './react-components/UserView'
 import AdminView from './react-components/AdminView'
 import Entry from './react-components/Entry'
