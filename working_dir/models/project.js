@@ -72,7 +72,7 @@ ProjectSchema.statics.findFuzzyTitle = function(ztitle) {
 
     // First find the user by their username
     return Project.find({ title: reg }).then((project) => {
-        if (project===[]) {
+        if (project.length === 0) {
             console.log("did not fuzzy find project in project DB")
             return Promise.reject()  // a rejected promise
         }

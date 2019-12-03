@@ -5,7 +5,7 @@ import 'antd/dist/antd.css';
 import { withRouter } from 'react-router-dom';
 import {logout} from "../../actions/user";
 import BaseReactComponent from '../BaseReactComponent'
-import {search, updateSearchKeyWord} from "../../actions/search";
+import {search, updateSearchKeyWord} from "../../actions/project";
 
 const { Title } = Typography;
 const { Search } = Input;
