@@ -44,6 +44,10 @@ const ProjectSchema = new mongoose.Schema({
     image3: { // THIS have to change into an object
         type: String,
         required: false
+    },
+    creator: {
+        type: String,
+        required: false
     }
 })
 

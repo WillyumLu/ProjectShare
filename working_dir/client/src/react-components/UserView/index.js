@@ -1,11 +1,15 @@
 import React from 'react';
 import 'antd/dist/antd.css';
 import QueueAnim from 'rc-queue-anim';
-import {readUser, updateUser} from './../../actions/user'
-import { Redirect } from 'react-router-dom'
+import { setState } from './../../actions/helpers'
+import {readUser, updateUser, changeName, changePassword} from './../../actions/user'
+import {deleteProject} from './../../actions/project'
+import { Redirect ,Link} from 'react-router-dom'
 import BaseReactComponent from "./../BaseReactComponent";
 import { message, Avatar, Layout, List, Card, Descriptions, Collapse, Form, Input,Button, Modal,Tag, Icon, Upload} from 'antd';
 import { LOADIPHLPAPI } from 'dns';
+import { read, link } from 'fs';
+import ProjectView from '../ProjectView';
 const { Content } = Layout;
 const { Meta } = Card;
 const { Panel } = Collapse;
@@ -215,16 +219,12 @@ class SettingAccountForm extends BaseReactComponent{
     };
 
     submitNewName = () =>{
-        //validate the new user name
-        //For phase 1 we don't do validation because no exist user data hardcoded on this page
-
-        //change the username
-        //replace it with server call on phase 2
-        this.state.userdata.userName = this.state.newName? this.state.newName:this.state.userdata.userName;
-
-        //reload the webpage
-        //For phase 1 it doesn't change the user view because data are hardcoded, all changes are gone when refreshed.
-        window.location.reload();    
+        const { userdata } = this.state
+        if (this.state.newName){
+            const body =  {user: userdata.username, newName: this.state.newName}
+            log(body)
+            changeName(body)
+        }
     }
 
     compareToFirstPassword = (rule, value, callback) => {
@@ -250,9 +250,12 @@ class SettingAccountForm extends BaseReactComponent{
             if (!err) {
                 //change the user's password
                 //replace it with a server call in phase 2
-                this.state.userdata.password = values.Password;
-                console.log("new password:", values.password);
-                window.location.reload();   
+        
+                const { userdata } = this.state
+                const body = {user: userdata.username, newPassWord: values.password}
+                log(body)
+                changePassword(body)
+                
             }
           });
        
@@ -404,24 +407,28 @@ class ProjectList extends BaseReactComponent{
         return "blue"
     }
   
-    toPath(addr){
-        this.setState({redirect: true});
-        this.setState({projectAddr: addr});
+    toPath(proj){
+        setState("projectView", proj)
+        this.props.history.push('/projectView');
+        // this.setState({redirect: true});
+        // this.setState({goto: proj});
     }
     
     renderRedirect = () => {
-        if (this.state.redirect) {
-          return <Redirect to= {this.state.projectAddr}/>
-        }
+        // if (this.state.redirect) {
+        //   return <Redirect to={{
+        //     pathname: '/projectView',
+        //     state: { project: this.state.goto }
+        // }}/>
+    // }
     }
 
     //quit the project
     //should be changed in phase 2
     handleDelete(item, userdata){
         //replace it with a server call    
-        
-        // this.state.userdata.projects.splice(this.state.userdata.projects.indexOf(item), 1);         
-        // this.props.rerenderParentCallback();
+        deleteProject(item._id)
+        this.props.rerenderParentCallback();
     }
     
       render(){
@@ -429,17 +436,19 @@ class ProjectList extends BaseReactComponent{
           log('State in ProjectList')
           log(userdata)
           const items = userdata.projects.map((item) => 
-          <div key= {item.id}>    
+          <div key= {item._id}>    
             <List.Item >                        
                 <Card style={{width: '50%'}} 
                 actions={[
-                    <Icon type="select" key= "detail" onClick={() => this.toPath(item.link)}/>,
+                    // <Link to={'/projectView'}> 
+                        <Icon type="select" key= "detail" onClick={() => this.toPath(item)} />,
+                    // </Link>, 
                     <Icon type="edit" key="edit" />,
-                    <Icon type="delete" key="delete"  onClick={() => this.handleDelete(item)}/>,
+                    <Icon type="delete" key="delete"  onClick={() => this.handleDelete(item, userdata)}/>,
                     ]}                  
                     >
                     <Meta
-                        avatar = {<Avatar src ={item.avatar}/>}
+                        avatar = {<Avatar src ={item.image1}/>}
                         title = {item.title}
                         description = {<div><br/><Tag color= {this.decideColor(item)}>{item.status}</Tag></div>}                   
                     />                                               
@@ -496,7 +505,7 @@ class UserView extends BaseReactComponent{
         log("State in UserView")
         log( userdata.username)
         const contentListNoTitle = {
-            project: <ProjectList key="projlst" rerenderParentCallback={this.rerenderParentCallback} userdata={userdata}/>,      
+            project: <ProjectList key="projlst" rerenderParentCallback={this.rerenderParentCallback} userdata={userdata} history={this.props.history}/>,      
             profile: userinfo,
             settings: settingContent
           };

@@ -22,6 +22,8 @@ db.once("open", function() {
     gfs = new mongoose.mongo.GridFSBucket(db.db);
 });
 
+const bcrypt = require('bcryptjs')
+
 // import the mongoose models
 const { User } = require('./models/user')
 const { Project } = require('./models/project')
@@ -194,6 +196,56 @@ app.patch("/api/user",(req, res) =>{
 
 })
 
+//endpoint to upadate username
+app.patch("/api/user/username",(req, res) =>{
+    const username = req.body.user 
+    const newName = req.body.newName
+    log("Change username for " + username)
+    User.findOne({username: username}).then(user => {
+            if(!user){
+                res.status(404).send();
+            }
+            else{
+                User.findOne({username: newName}).then(existed => {
+                    if (!existed){
+                        user.username = newName
+                        user.save().then((updated) => {res.send(updated)}
+                        )
+                    }
+                    else{
+                        log("User already exist!")
+                        res.status(400).send()
+                    }
+                })
+            }
+        }).catch((error) => {
+            res.status(500).send()
+        })
+})
+
+//endpoint to upadate password
+app.patch("/api/user/password",(req, res) =>{
+    const username = req.body.user 
+    const newPassWord = req.body.newPassWord
+    log("Change password for " + username)
+    bcrypt.genSalt(10, (err, salt) => {
+        bcrypt.hash(newPassWord, salt, (err, hash) => {
+            User.findByUsername(username).then(user => {
+                if(!user){
+                    res.status(404).send();
+                }
+                else{
+                    user.password = newPassWord
+                    user.save().then(updated => {res.send(updated)})
+                        
+                    }
+            }).catch((error) => {
+                res.status(400).send()
+            })
+        })
+    })
+})
+
 // save a project
 app.post('/addProject', (req, res) => {
     const project = new Project({
@@ -203,7 +255,8 @@ app.post('/addProject', (req, res) => {
         likes: req.body.likes,
         image1: req.body.image1,
         image2: req.body.image2,
-        image3: req.body.image3
+        image3: req.body.image3,
+        creator: req.body.creator
     })
     project.save().then(
         project => {
@@ -227,6 +280,7 @@ app.delete('/deleteProject/:id', (req, res) => {
     }
 
     // Delete a student by their id
+
     Project.findByIdAndRemove(id)
         .then(project => {
             if (!project) {
@@ -290,6 +344,22 @@ app.get('/users', (req, res) => {
     })
 })
 
+// endpoint to get all projects by user id
+app.get('/allProjects/:id', (req, res) => {
+    const creator = req.params.id
+    Project.find({creator: creator}).then(
+        projects => {
+            log("getting all projects for user: ", creator )
+            log(projects);
+            res.send({ projects }); // can wrap in object if want to add more properties
+        },
+        error => {
+            res.status(500).send(error); // server error
+        }
+    );
+
+});
+
 app.post('/findProject', (req, res) => {
     Project.findByTitle(req.body.title)
     .then((project) => {
@@ -307,7 +377,7 @@ app.post("/upload/avatar", multipart(), (req, res) => {
     const filename = req.files.avatar.originalFilename || path.basename(req.files.avatar.path);
     const writeStream = gfs.openUploadStream(filename)
     const user = req.session.user? req.session.user: "User01"
-    log("Upload profile Image for: " + user)    
+    log("Upload profile image for: " + user)    
     fs.createReadStream(req.files.avatar.path).pipe(writeStream)
     writeStream.on('finish', function (file) {
         const imageUri = "/retrieve/" + file._id

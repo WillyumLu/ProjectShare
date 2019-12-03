@@ -1,4 +1,5 @@
 import { setState } from "./helpers";
+import { readUser } from "./user";
 const log = console.log
 
 export const updateProjectList = () => {
@@ -58,6 +59,7 @@ export const deleteProject = (projectID) => {
             if (res.status === 200) {
                 // this is saved in local storage for now, need to use session and cookie
                 updateProjectList()
+                readUser()
                 log(res.json);
             }
         })

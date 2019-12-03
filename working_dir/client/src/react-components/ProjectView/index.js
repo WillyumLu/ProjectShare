@@ -1,8 +1,15 @@
 import React from 'react';
 import {PageHeader, Button} from 'antd';
+import BaseReactComponent from '../BaseReactComponent';
 const log = console.log
 
-class ProjectView extends React.Component {
+class ProjectView extends BaseReactComponent {
+	
+	filterState({ projectView }) {
+        console.log("ProjectView is calling filter")
+        return { projectView };
+    }
+
 
 	getType(status){
 		if(status === "deployed"){
@@ -19,18 +26,18 @@ class ProjectView extends React.Component {
 
 	constructor(props){
 		super(props)
-		this.project = this.props.project;
 		this.increment = this.increment.bind(this)
-		this.state = {project: this.project, likes: this.props.project.likes}
-		log(this.project)
+		this.state = {likes: 0}
 	}
 	increment(event) {
-			this.project.likes+=1
-			this.setState({ likes: this.project.likes });
+			//need server call to add like to database
+			this.setState({ likes: this.state.likes + 1 });
 	}
 
 	render() {
-
+		const { projectView } =this.state
+		this.project = projectView
+		log(this.project)
 		const routes = [
 		  {
 		    path: 'index',
@@ -97,7 +104,7 @@ class ProjectView extends React.Component {
 					<Button type="dashed" onClick = {this.increment}>Like</Button>
 				</div>
 				<div class="numLikes">
-					Likes: {this.project.likes}
+					Likes: {this.state.likes}
 				</div>
 				<div class="projectInfo">
 					<div className = "infoHeader"> <h3> Project Information: </h3> </div>
