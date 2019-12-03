@@ -90,6 +90,61 @@ class UploadProfilePicture extends BaseReactComponent{
 
 
 }
+
+class UploadProjectPicture extends BaseReactComponent{
+    filterState({ userdata }) {
+        console.log("UserView is calling filter")
+        return { userdata };
+    }
+
+    state = {loading: false}
+    handleChange = (info) => {
+        if (info.file.status === 'uploading') {
+            this.setState({ loading: true });
+            return;
+        }
+
+        if (info.file.status === 'done'){
+            readUser()
+            getBase64(info.file.originFileObj, imageUrl =>
+                this.setState({
+                  imageUrl,
+                  loading: false,
+                }),
+              );
+        }
+
+    }
+
+    render() {
+        const uploadButton = (
+            <div>
+              <Icon type={this.state.loading ? 'loading' : 'plus'} />
+              <div className="ant-upload-text">Upload</div>
+            </div>
+            )
+        
+        const {imageUrl} = this.state;
+        
+        return(
+            <Upload
+            name="projImg"
+            listType="picture-card"
+            className="avatar-uploader"
+            action = {this.props.num}
+            showUploadList={false}  
+            beforeUpload={beforeUpload}
+            onChange={this.handleChange}
+            >
+               {imageUrl ? <img src={imageUrl} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
+            
+            </Upload>
+        )
+    }    
+
+
+}
+
 class SettingProfileForm extends BaseReactComponent{
     filterState({ userdata }) {
         console.log("UserView is calling filter")
@@ -397,7 +452,8 @@ class ProjectList extends BaseReactComponent{
 
     state = {
         redirect: false,
-        projectAddr: null,     
+        projectAddr: null, 
+        visible: false   
     }
 
     decideColor(item){
@@ -430,6 +486,20 @@ class ProjectList extends BaseReactComponent{
         deleteProject(item._id)
         this.props.rerenderParentCallback();
     }
+    showEdit = () =>{
+		this.setState({visible: true})    
+    }
+    cancelEdit = () => {
+		this.setSate({visible: false})    
+    }
+    handleEdit(item){
+    	this.setState({editId: item._id})
+		showEdit()    
+    }
+    submitProjInfo = () =>{
+    
+    }
+    
     
       render(){
           const { userdata } = this.state
@@ -443,8 +513,8 @@ class ProjectList extends BaseReactComponent{
                     // <Link to={'/projectView'}> 
                         <Icon type="select" key= "detail" onClick={() => this.toPath(item)} />,
                     // </Link>, 
-                    <Icon type="edit" key="edit" />,
-                    <Icon type="delete" key="delete"  onClick={() => this.handleDelete(item, userdata)}/>,
+                    <Icon type="edit" key="edit" onClick={() => this.handleEdit(item)}/>,
+                    <Icon type="delete" key="delete" onClick={() => this.handleDelete(item, userdata)}/>,
                     ]}                  
                     >
                     <Meta
@@ -459,7 +529,22 @@ class ProjectList extends BaseReactComponent{
             const empty = <List dataSource = {[]}/>
           return(
             <div>
-            {this.renderRedirect()}   
+            {this.renderRedirect()}
+            <Modal 
+                    visible={this.state.visible}
+                    title="Edit your project"
+                    okText="Submit"
+                    onCancel={this.cancelEdit}
+                    onOk={this.submitProjInfo}>
+                    <UploadProjectPicture url={"/upload/projimg/" + this.state.editId +"image1"}/>
+                    <UploadProjectPicture url={"/upload/projimg/" + this.state.editId +"image2"}/>
+                    <UploadProjectPicture url={"/upload/projimg/" + this.state.editId +"image2"}/>
+                    <Form layout="vertical">
+                        <Form.Item label="Username">
+                            <Input name = "newName" placeholder="new username" onChange={this.handleInputChange}/>
+                        </Form.Item>
+                    </Form>                    
+            </Modal>   
             <QueueAnim type={["bottom", "right"]}>
                 {userdata.projects.length? items:empty} 
                                 
