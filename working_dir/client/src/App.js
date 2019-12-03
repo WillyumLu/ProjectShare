@@ -17,9 +17,9 @@ import './style.css';
 
 class App extends BaseReactComponent {
 
-	filterState({ currentUser }) {
+	filterState({ currentUser, userIsAdmin }) {
 		console.log("App is calling filter")
-        return { currentUser };
+        return { currentUser, userIsAdmin };
     }
 
     constructor(props) {
@@ -29,16 +29,15 @@ class App extends BaseReactComponent {
 
 	render() {
 		console.log("app page")
-		const { currentUser } = this.state;
+		const { currentUser, userIsAdmin } = this.state;
 		return(
 			<div>
 				<BrowserRouter>
 				    <Switch> { /* Similar to a switch statement - shows the component depending on the URL path */ }
 		            { /* Each Route below shows a different component depending on the exact path in the URL  */ }
 						<Route exact path='/' component={currentUser ? Home : Entry}/>
-						<Route exact path='/user' component={UserView}/>
+						<Route exact path='/userView' component={userIsAdmin ? AdminView : UserView}/>
 						<Route exact path='/edit' component={Edit}/>
-						<Route exact path='/admin' component={AdminView}/>
 						<Route exact path='/projectView' component={Home}/>
 						</Switch>
 	        	</BrowserRouter>

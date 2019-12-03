@@ -21,7 +21,7 @@ class Navigation extends BaseReactComponent {
   };
 
   viewProfile = () => {
-    this.props.history.push("/user");
+    this.props.history.push("/userView");
   }
 
   viewEditPage = () => {

@@ -51,8 +51,11 @@ export const login = (username, password) => {
         })
         .then(json => {
             // if the returned type is admin, indicating that the user is an admin
-            if(json.type === "admin"){
-                setState("userIsAdmin", true);
+            if(json.type !== undefined){
+                if(json.type === "admin")
+                {
+                    setState("userIsAdmin", true);
+                }
             }
             if (json.currentUser !== undefined) {
                 setState("currentUser", json.currentUser);
@@ -102,7 +105,7 @@ export const signup = (username, password) => {
                 // get a profile picture, email, etc
                 // in order to have a userview set up for the user
                 //setState("currentUser", json.currentUser);
-                setState("createUserView", true)
+                setState("currentUser", json.currentUser)
                 console.log("state set")
             }
         })
