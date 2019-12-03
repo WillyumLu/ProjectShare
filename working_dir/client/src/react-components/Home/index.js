@@ -221,7 +221,10 @@ class Home extends BaseReactComponent {
 	}*/
 
 	render() {
+
+
 		const { projectList, userdata } = this.state;
+
 		if(this.props.location.pathname === "/projectView"){
 			const title = this.state.selectedProject;
 		 	console.log(this.state.selectedProject)
