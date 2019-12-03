@@ -14,6 +14,7 @@ import {readUser} from './../../actions/user'
 import { Redirect } from 'react-router-dom'
 
 var Center = require('react-center');
+const { TextArea } = Input
 
 const global_project_0 = {
 	id: 0,
@@ -187,13 +188,15 @@ class Home extends BaseReactComponent {
 	}
 	addTitle = (event) => {
 		projectData.title = event.target.value
-		this.setState({canPublish: (projectData.title && projectData.status && projectData.imagesUploaded>=3)})
+		this.setState({canPublish: (projectData.title && projectData.status)})
 		console.log(event.target.value)
 	}
 	addStatus = (event) => {
 		projectData.status = event.target.value
 		this.setState({canPublish: (projectData.title && projectData.status)})
-
+	}
+	addDescription = (event) => {
+		projectData.description = event.target.value
 	}
 	publishText(userdata) {
 		if (getState("currentUser")){
@@ -254,8 +257,10 @@ class Home extends BaseReactComponent {
 					{
 						projectList.map((project) => {
 							return(
-								<Project key={uid(project)}
-								         project = {project}
+								<Project style={{"left": "50"}} 
+										key={uid(project)}
+										 project = {project}
+										 history={this.props.history}
 								         sendSelectedProject = {this.receiveSelectedProject}
 								/>
 								)
@@ -265,13 +270,15 @@ class Home extends BaseReactComponent {
 					</div>
 				</div>
 				<div id="newProject">
-					<Card title="Upload Your Own Project!" className="newProjectCard" style={{"borderRadius": "2%", "width": "60"}}>
+					<Card title="Upload Your Own Project!" className="newProjectCard" style={{"borderRadius": "2%", "width": "60", "right": "50"}}>
 						<div>Upload 3 Images for you project:</div>
 						<div id="uploadButton"><UploadProjectPicture/></div>
 						<div>Title:</div>
 						<div><Input placeholder="name your project" onChange={this.addTitle}/></div>
 						<div>Status:</div>
 						<div><Input placeholder="in progress/deployed/complete" onChange={this.addStatus}/></div>
+						<div>Discription:</div>
+						<div><TextArea rows={4} placeholder="project description" onChange={this.addDescription}/></div>
 						<div>All Set?</div>
 						<Button type={"primary"} disabled={ !(this.state.canPublish) } onClick={this.publish}>{this.publishText(userdata)}</Button>
 					</Card>

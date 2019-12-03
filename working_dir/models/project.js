@@ -30,6 +30,11 @@ const ProjectSchema = new mongoose.Schema({
 		required: true,
 		minlength: 1
     },
+    description:{
+        type: String,
+        required:false
+    }
+    ,
     likes: {
         type: Number
     },

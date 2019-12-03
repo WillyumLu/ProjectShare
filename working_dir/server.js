@@ -252,7 +252,8 @@ app.post('/addProject', (req, res) => {
         image1: req.body.image1,
         image2: req.body.image2,
         image3: req.body.image3,
-        creator: req.body.creator
+        creator: req.body.creator,
+        description: req.body.description,
     })
     project.save().then(
         project => {
@@ -263,6 +264,30 @@ app.post('/addProject', (req, res) => {
         }
     );
 });
+
+//endpoint to edit a project
+app.patch('/editProject/:id', (req, res) => {
+    const id = req.params.id
+    log("Updating project " + id )
+    if (!ObjectID.isValid(id)) {
+        res.status(404).send();
+    }
+    Project.findByIdAndUpdate(id, {$set: {title: req.body.title,
+                                        status: req.body.status,
+                                        description: req.body.description}},
+                            {new:true, useFindAndModify: false}
+                            ).then(proj =>{
+                                if(!proj){
+                                    res.status(404).send();
+                                }
+                                else{
+                                    res.send(proj)
+                                }
+
+                            }).catch((error) => {
+                                res.status(400).send()
+                            })
+})
 
 // delete a project
 app.delete('/deleteProject/:id', (req, res) => {
