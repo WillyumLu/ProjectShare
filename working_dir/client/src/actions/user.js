@@ -114,3 +114,42 @@ export const logout = () => {
             console.log(error);
         });
 };
+
+export const readUser = () => {
+    const url = "/api/user"
+    fetch(url).then(res => {
+            if (res.status === 200) {
+                return res.json();
+            }
+    }).then(user => {
+        log(user)
+        setState("userdata", user)
+    }).catch(error => {
+        console.log(error);
+    });
+}
+
+export const updateUser = (content) => {
+    console.log(content)
+    const url = "/api/user"
+    const request = new Request(url, {
+        method: 'PATCH',
+        body: JSON.stringify(content),
+        headers: {
+            Accept: "application/json, text/plain, */*",
+            "Content-Type": "application/json"
+        }
+    });
+    log("update userprofile requesting")
+    fetch(request)
+        .then(res => {
+            if (res.status === 200) {
+                log(res.json);
+                readUser()
+            }
+        })
+        .catch(error => {
+            log("error")
+            log(error);
+        });
+}
