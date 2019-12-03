@@ -70,6 +70,7 @@ app.post('/login', (req, res) => {
     User.findByUsernamePassword(username, password)
     .then((user) => {
         log("I FOUND ITTTTTTTTTTTTT")
+        req.session.userID = user._id
         req.session.user = user.username
         req.session.type = user.type
         res.status(200).send({ currentUser: user.username, type: user.type });
@@ -103,6 +104,7 @@ app.post("/signup", (req, res) => {
     // Save the user
     user.save().then(
         user => {
+            req.session.userID = user._id
             res.status(200).send({ currentUser: user.username, type: user.type });
         },
         error => {
@@ -256,7 +258,9 @@ app.post('/addProject', (req, res) => {
         image1: req.body.image1,
         image2: req.body.image2,
         image3: req.body.image3,
-        creator: req.body.creator
+        creator: req.body.creator,
+        requested: [],
+        members: []
     })
     project.save().then(
         project => {
@@ -427,6 +431,24 @@ app.post("/upload/projimg", multipart(), (req, res) => {
     writeStream.on('error', () => {
         return res.status(500).json({ message: "Error uploading file" });
       });
+})
+
+app.post("/join/:title", (req, res) => {
+    log("server join request")
+    log(req.params.title)
+    Project.findByTitle(req.params.title)
+    .then((project) => {
+        log("I FOUND ITTTTTTTTTTTTT")
+        log(project)
+        project.requested.push(req.session.userID)
+        log(project.requested)
+        project.save()
+        res.status(200).send(req.session.userID);
+    }).catch((error) => {
+        log("OH NO")
+        res.status(404).send(error)
+    })
+
 })
 
 /*** Webpage routes below **********************************/

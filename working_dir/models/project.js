@@ -48,6 +48,14 @@ const ProjectSchema = new mongoose.Schema({
     creator: {
         type: String,
         required: false
+    },
+    members: {
+        type: Array,
+        required: true
+    },
+    requested: {
+        type: Array,
+        required: true
     }
 })
 

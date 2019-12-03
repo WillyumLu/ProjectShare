@@ -85,9 +85,6 @@ class Project extends React.Component {
 							<Button type={this.getType(this.project.status)} disabled={this.getStatus(this.project.status)}>{this.project.status}</Button>
 						</Popover>
 					  </div>
-					
-					
-
 				</Card>
 			</div>
 			)
