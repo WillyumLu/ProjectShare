@@ -68,6 +68,23 @@ ProjectSchema.statics.findByTitle = function(title) {
 	})
 }
 
+
+ProjectSchema.statics.findFuzzyTitle = function(ztitle) {
+    const Project = this // binds this to the Project model
+    const reg = new RegExp(ztitle, 'i')
+    // const reg = new RegExp(ztitle, 'i')
+
+    // First find the user by their username
+    return Project.find({ title: reg }).then((project) => {
+        if (project.length === 0) {
+            console.log("did not fuzzy find project in project DB")
+            return Promise.reject()  // a rejected promise
+        }
+        // if the project exists
+
+        return Promise.resolve(project)
+    })
+}
 // make a model using the User schema
 const Project = mongoose.model('Project', ProjectSchema)
 module.exports = { Project }
