@@ -1,29 +1,16 @@
 import React from 'react';
 import 'antd/dist/antd.css';
 import QueueAnim from 'rc-queue-anim';
-
-
+import {readUser, updateUser} from './../../actions/user'
 import { Redirect } from 'react-router-dom'
+import BaseReactComponent from "./../BaseReactComponent";
 import { message, Avatar, Layout, List, Card, Descriptions, Collapse, Form, Input,Button, Modal,Tag, Icon, Upload} from 'antd';
+import { LOADIPHLPAPI } from 'dns';
 const { Content } = Layout;
 const { Meta } = Card;
 const { Panel } = Collapse;
 const { TextArea } = Input;
 const log = console.log
-const userdata = {
-    userName: "user",
-    pwd: "user",
-    profileImage: require('./userprofile.jpg'),
-    firstName: "Jason",
-    lastName: "Bourne",
-    school: "University of Toronto",
-    bio: "Jesus christ it's jason bourne!",
-    email: "",
-    phone: "114514",
-    projects: [{id: 0, title: "Project1", avatar: null, status: "in progress", link: "/"}, 
-                {id: 1, title: "Project2", avatar: null, status: "in progress"},
-                {id: 2, title: "Project3", avatar: null, status: "complete"}]
-}
 
 function getBase64(img, callback) {
     const reader = new FileReader();
@@ -46,7 +33,12 @@ function beforeUpload(file) {
   }
    
 
-class UploadProfilePicture extends React.Component{
+class UploadProfilePicture extends BaseReactComponent{
+    filterState({ userdata }) {
+        console.log("UserView is calling filter")
+        return { userdata };
+    }
+
     state = {loading: false}
     handleChange = (info) => {
         if (info.file.status === 'uploading') {
@@ -55,6 +47,7 @@ class UploadProfilePicture extends React.Component{
         }
 
         if (info.file.status === 'done'){
+            readUser()
             getBase64(info.file.originFileObj, imageUrl =>
                 this.setState({
                   imageUrl,
@@ -93,7 +86,12 @@ class UploadProfilePicture extends React.Component{
 
 
 }
-class SettingProfileForm extends React.Component{
+class SettingProfileForm extends BaseReactComponent{
+    filterState({ userdata }) {
+        console.log("UserView is calling filter")
+        return { userdata };
+    }
+
     state = {       
         firstName: null,
         lastName: null,
@@ -119,11 +117,13 @@ class SettingProfileForm extends React.Component{
     handleSubmit = (e) => {
         e.preventDefault();
         console.log(this.state);
-        userdata.bio = this.state.bio? this.state.bio: userdata.bio;
-        userdata.firstName = this.state.firstName? this.state.firstName: userdata.firstName;
-        userdata.lastName = this.state.lastName? this.state.lastName: userdata.lastName;
-        userdata.email = this.state.email? this.state.email: userdata.email;
-        userdata.school = this.state.school? this.state.school: userdata.school;     
+        const body = {firstName: this.state.firstName?this.state.firstName: this.state.userdata.firstName,
+                    lastName: this.state.lastName?this.state.lastName : this.state.userdata.lastName,
+                    school: this.state.school?this.state.school : this.state.userdata.school,
+                    email: this.state.email?this.state.email:this.state.userdata.email,
+                    phone: this.state.phone?this.state.phone:this.state.userdata.phone,
+                    bio: this.state.bio?this.state.bio:this.state.userdata.bio}
+        updateUser(body);
      };
 
     render(){
@@ -176,7 +176,12 @@ class SettingProfileForm extends React.Component{
     }
 }
 
-class SettingAccountForm extends React.Component{
+class SettingAccountForm extends BaseReactComponent{
+    filterState({ userdata }) {
+        console.log("UserView is calling filter")
+        return { userdata };
+    }
+
     state = {
         userVisible: false,
         pwdVisible: false,
@@ -215,7 +220,7 @@ class SettingAccountForm extends React.Component{
 
         //change the username
         //replace it with server call on phase 2
-        userdata.userName = this.state.newName? this.state.newName:userdata.userName;
+        this.state.userdata.userName = this.state.newName? this.state.newName:this.state.userdata.userName;
 
         //reload the webpage
         //For phase 1 it doesn't change the user view because data are hardcoded, all changes are gone when refreshed.
@@ -245,7 +250,7 @@ class SettingAccountForm extends React.Component{
             if (!err) {
                 //change the user's password
                 //replace it with a server call in phase 2
-                userdata.pwd = values.Password;
+                this.state.userdata.password = values.Password;
                 console.log("new password:", values.password);
                 window.location.reload();   
             }
@@ -325,17 +330,22 @@ class SettingAccountForm extends React.Component{
 }
 
 const AccountForm = Form.create()(SettingAccountForm); 
-class ProfileDisplay extends React.Component{
+class ProfileDisplay extends BaseReactComponent{
+    filterState({ userdata }) {
+        console.log("UserView is calling filter")
+        return { userdata };
+    }
+
     render(){
         return(
             <Descriptions title="User Info" layout="vertical">
-                <Descriptions.Item id ='profile-username'label="User Name">{userdata.userName}</Descriptions.Item>
-                <Descriptions.Item id ='profile-firstname' label="First Name">{userdata.firstName}</Descriptions.Item>
-                <Descriptions.Item id ='profile-firstname' label="Last Name">{userdata.lastName}</Descriptions.Item>
-                <Descriptions.Item label="School">{userdata.school}</Descriptions.Item>
-                <Descriptions.Item label="Email">{userdata.email}</Descriptions.Item>
-                <Descriptions.Item label="Phone Number:">{userdata.phone}</Descriptions.Item>
-                <Descriptions.Item id ='profilebio' label="Bio">{userdata.bio}</Descriptions.Item>
+                <Descriptions.Item id ='profile-username'label="User Name">{this.state.userdata.username}</Descriptions.Item>
+                <Descriptions.Item id ='profile-firstname' label="First Name">{this.state.userdata.firstName}</Descriptions.Item>
+                <Descriptions.Item id ='profile-firstname' label="Last Name">{this.state.userdata.lastName}</Descriptions.Item>
+                <Descriptions.Item label="School">{this.state.userdata.school}</Descriptions.Item>
+                <Descriptions.Item label="Email">{this.state.userdata.email}</Descriptions.Item>
+                <Descriptions.Item label="Phone Number:">{this.state.userdata.phone}</Descriptions.Item>
+                <Descriptions.Item id ='profilebio' label="Bio">{this.state.userdata.bio}</Descriptions.Item>
             </Descriptions>
         );
     }
@@ -375,10 +385,16 @@ const tabList = [
     }
   ];
 
-class ProjectList extends React.Component{
+class ProjectList extends BaseReactComponent{
+
+    filterState({ userdata }) {
+        console.log("UserView is calling filter")
+        return { userdata };
+    }
+
     state = {
         redirect: false,
-        projectAddr: null,         
+        projectAddr: null,     
     }
 
     decideColor(item){
@@ -401,14 +417,17 @@ class ProjectList extends React.Component{
 
     //quit the project
     //should be changed in phase 2
-    handleDelete(item){
+    handleDelete(item, userdata){
         //replace it with a server call    
         
-        userdata.projects.splice(userdata.projects.indexOf(item), 1);         
-        this.props.rerenderParentCallback();
+        // this.state.userdata.projects.splice(this.state.userdata.projects.indexOf(item), 1);         
+        // this.props.rerenderParentCallback();
     }
     
       render(){
+          const { userdata } = this.state
+          log('State in ProjectList')
+          log(userdata)
           const items = userdata.projects.map((item) => 
           <div key= {item.id}>    
             <List.Item >                        
@@ -441,20 +460,29 @@ class ProjectList extends React.Component{
       }
   }
 
-class UserView extends React.Component{
+class UserView extends BaseReactComponent{
+    
+    filterState({ userdata }) {
+        console.log("UserView is calling filter")
+        return { userdata };
+    }
+
+
     constructor(props) {
         super(props);
+        this.state =  {     
+            key: "project" 
+        } 
         this.rerenderParentCallback = this.rerenderParentCallback.bind(this);
+    }
+    componentDidMount() {
+        readUser()
     }
 
     rerenderParentCallback() {
         log("rerendered!");
         this.forceUpdate();
     }
-    state = {        
-        key: "project",      
-        
-    }  
 
    
     onTabChange = (key, type) => {
@@ -464,8 +492,11 @@ class UserView extends React.Component{
     };
 
     render(){
+        const { userdata } = this.state
+        log("State in UserView")
+        log( userdata.username)
         const contentListNoTitle = {
-            project: <ProjectList key="projlst" rerenderParentCallback={this.rerenderParentCallback}/>,      
+            project: <ProjectList key="projlst" rerenderParentCallback={this.rerenderParentCallback} userdata={userdata}/>,      
             profile: userinfo,
             settings: settingContent
           };
@@ -475,7 +506,7 @@ class UserView extends React.Component{
                     <Card style = {{margin: '50px', float: "left"}} bordered={false}>                       
                         <Avatar size ={400} shape="square" src={userdata.profileImage}/>
                         <br/>                       
-                        <p><font size="6">{userdata.userName}</font></p>
+                        <p><font size="6">{userdata.username}</font></p>
                         <p><font size="4">{userdata.bio}</font></p>
                     </Card>
 
