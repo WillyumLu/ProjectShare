@@ -7,6 +7,7 @@ import Navigation from './react-components/navigation';
 import UserView from './react-components/UserView'
 import AdminView from './react-components/AdminView'
 import Entry from './react-components/Entry'
+import Edit from './react-components/Edit'
 
 import { readCookie } from "./actions/user";
 
@@ -36,6 +37,7 @@ class App extends BaseReactComponent {
 		            { /* Each Route below shows a different component depending on the exact path in the URL  */ }
 						<Route exact path='/' component={currentUser ? Home : Entry}/>
 						<Route exact path='/user' component={UserView}/>
+						<Route exact path='/edit' component={Edit}/>
 						<Route exact path='/admin' component={AdminView}/>
 						<Route exact path='/projectView' component={Home}/>
 						</Switch>

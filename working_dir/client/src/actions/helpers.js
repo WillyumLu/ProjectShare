@@ -10,8 +10,9 @@ import { action } from "statezero";
 // - studentForm and message state paths are used by the StudentForm component
 // - studentList state path is used by the StudentList component
 export const setEmptyState = () => {
-	setState("erorrMessage", null)
-	setState("logInPath", false)
+	setState("userList", null);
+	setState("userIsAdmin", null);
+	setState("logInPath", false);
     setState("currentUser", null);
     setState("loginForm", { username: "", password: "" });
     setState("projectList", []);

@@ -11,9 +11,9 @@ const { Title } = Typography;
 const { Search } = Input;
 class Navigation extends BaseReactComponent {
 
-  filterState({ currentUser }) {
+  filterState({ userIsAdmin }) {
     console.log("Navigation Bar is calling filter")
-        return { currentUser };
+        return { userIsAdmin };
   }
 
   state = {
@@ -24,7 +24,13 @@ class Navigation extends BaseReactComponent {
     this.props.history.push("/user");
   }
 
+  viewEditPage = () => {
+    this.props.history.push("/edit")
+  }
+
   render() {
+    console.log("rendering navigation")
+    const { userIsAdmin } = this.state
     return (
       <Menu selectedKeys={[this.state.current]} mode="horizontal"  style={{'marginTop': 8, 'marginBottom': 8}}>
         <Menu.Item key="logo">
@@ -56,6 +62,11 @@ class Navigation extends BaseReactComponent {
         </Menu.Item>
         <Menu.Item onClick = {this.viewProfile} key="VIEW PROFILE" id="floatRight">
             VIEW PROFILE      
+        </Menu.Item>
+        <Menu.Item onClick = {this.viewEditPage} key="DELETE PROJECTS/USERS" id="floatRight">
+        {
+           userIsAdmin ? "DELETE PROJECTS/USERS" : ""
+        }
         </Menu.Item>
       </Menu>
     );

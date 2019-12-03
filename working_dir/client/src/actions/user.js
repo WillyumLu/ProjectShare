@@ -13,6 +13,9 @@ export const readCookie = () => {
             }
         })
         .then(json => {
+            if(json.type === "admin"){
+                setState("userIsAdmin", true);
+            }
             if (json.currentUser !== undefined) {
                 setState("currentUser", json.currentUser);
             }
@@ -47,6 +50,10 @@ export const login = (username, password) => {
             }
         })
         .then(json => {
+            // if the returned type is admin, indicating that the user is an admin
+            if(json.type === "admin"){
+                setState("userIsAdmin", true);
+            }
             if (json.currentUser !== undefined) {
                 setState("currentUser", json.currentUser);
             }
@@ -91,7 +98,11 @@ export const signup = (username, password) => {
             console.log(json.currentUser)
             if (json.currentUser !== undefined) {
                 console.log("setting state")
-                setState("currentUser", json.currentUser);
+                // even though we have signed up, we don't have a user until we
+                // get a profile picture, email, etc
+                // in order to have a userview set up for the user
+                //setState("currentUser", json.currentUser);
+                setState("createUserView", true)
                 console.log("state set")
             }
         })
@@ -100,6 +111,29 @@ export const signup = (username, password) => {
             console.log(error);
         });
 };
+
+
+export const getCurrentUsersName = () => {
+    const userName = getState("currentUser")
+    return userName
+}
+
+export const getAllUsers = () => {
+    const url = "/users";
+
+    fetch(url)
+        .then(res => {
+            if (res.status === 200) {
+                return res.json();
+            }
+        })
+        .then(json => {
+            setState("userList", json.user)
+        })
+        .catch(error => {
+            console.log(error);
+        });
+}
 
 export const logout = () => {
     setState("currentUser", null)
@@ -112,5 +146,26 @@ export const logout = () => {
         })
         .catch(error => {
             console.log(error);
+        });
+};
+
+export const deleteUser = (userID) => {
+    // Create our request constructor with all the parameters we need
+    console.log("sending delete user request via action")
+    const request = new Request(`/deleteUser/${userID}`, {
+        method: "delete"
+    });
+    // Send the request with fetch()
+    fetch(request)
+        .then(res => {
+            if (res.status === 200) {
+                // this is saved in local storage for now, need to use session and cookie
+                getAllUsers()
+                log(res.json);
+            }
+        })
+        .catch(error => {
+            log("error")
+            log(error);
         });
 };

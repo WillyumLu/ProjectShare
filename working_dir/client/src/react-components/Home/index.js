@@ -6,6 +6,7 @@ import {message, Icon, Upload, Card, Input, Button} from 'antd';
 import { uid } from 'react-uid';
 import './Home.css';
 import { updateProjectList } from "./../../actions/project"
+import { getAllUsers } from "./../../actions/user"
 import { isPromiseAlike } from 'q';
 import Navigation from '../Navigation'
 
@@ -168,6 +169,7 @@ class Home extends BaseReactComponent {
 	constructor(props) { // When the componenet is created,  calls load data
 		super(props)
 		updateProjectList()
+		getAllUsers()
 	  	this.state = {projects: allProjects,
 						selectedProject: null,
 					}
