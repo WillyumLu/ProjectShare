@@ -254,6 +254,7 @@ app.post('/addProject', (req, res) => {
         image3: req.body.image3,
         creator: req.body.creator,
         description: req.body.description,
+        members:[]
     })
     project.save().then(
         project => {
