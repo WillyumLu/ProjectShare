@@ -24,7 +24,41 @@ const UserSchema = new mongoose.Schema({
 		required: true,
 		minlength: 4,
 		maxlength: 5
+	},
+	profileImage:{
+		type: String,
+		required: false
+	},
+	firstName:{
+		type: String,
+		required: false
+	},
+	lastName:{
+		type: String,
+		required: false
+	},
+	school:{
+		type: String,
+		required: false
+	},
+	bio:{
+		type: String,
+		required: false
+	},
+	email:{
+		type: String,
+		required: false
+	},
+	phone:{
+		type: String,
+		required: false
+	},
+	projects:{
+		type: Array,
+		required: false
 	}
+
+
 })
 
 // An example of Mongoose middleware.
@@ -68,6 +102,22 @@ UserSchema.statics.findByUsernamePassword = function(username, password) {
 					reject()
 				}
 			})
+		})
+	})
+}
+
+UserSchema.statics.findByUsername = function(username) {
+	const User = this // binds this to the User model
+
+	// First find the user by their username
+	return User.findOne({ username: username }).then((user) => {
+		if (!user) {
+			console.log("did not find user in user DB")
+			return Promise.reject()  // a rejected promise
+		}
+		// if the user exists, make sure their password is correct
+		return new Promise((resolve, reject) => {
+			resolve(user)
 		})
 	})
 }

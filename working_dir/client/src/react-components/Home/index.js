@@ -1,5 +1,7 @@
 import React from 'react';
 import BaseReactComponent from "./../BaseReactComponent";
+import { getState } from "statezero";
+import { addProject } from "./../../actions/project"
 import Project from './../Project';
 import ProjectView from './../ProjectView'
 import {message, Icon, Upload, Card, Input, Button} from 'antd';
@@ -57,11 +59,8 @@ var today = new Date();
 var dd = String(today.getDate()).padStart(2, '0');
 var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
 var yyyy = today.getFullYear();
-
 today = yyyy + '-'+ mm + '-'+dd;
-var pid=3;
 var projectData = {
-	id: pid,
 	imagesUploaded: 0,
 	title: null,
 	start_date: today,
@@ -172,6 +171,7 @@ class Home extends BaseReactComponent {
 		getAllUsers()
 	  	this.state = {projects: allProjects,
 						selectedProject: null,
+						canPublish: false
 					}
 	}
 
@@ -184,28 +184,28 @@ class Home extends BaseReactComponent {
 	}
 	addTitle = (event) => {
 		projectData.title = event.target.value
+		this.setState({canPublish: (projectData.title && projectData.status && projectData.imagesUploaded>=3)})
 		console.log(event.target.value)
 	}
 	addStatus = (event) => {
 		projectData.status = event.target.value
+		this.setState({canPublish: (projectData.title && projectData.status && projectData.imagesUploaded>=3)})
 
 	}
 	publishText() {
-		if (localStorage.getItem('loggedIn') === "true"){
+		if (getState("currentUser")){
 			return "Publish!"
 		}
 		return "You must be logged in!"
 	}
 	ifloggedIn() {
-		if (localStorage.getItem('loggedIn') === "true"){
+		if (getState("currentUser")){
 			return false
 		}
 		return true
 	}
 	publish	= () => {
-		allProjects[projectData.id] = projectData;
-		projectData.id+=1
-		this.setState({projects: allProjects})
+		addProject(projectData);
 	}
 	/*
 	localStorage.setItem('sendSearchRequest', receiveSearchRequest)
@@ -267,7 +267,7 @@ class Home extends BaseReactComponent {
 						<div>Status:</div>
 						<div><Input placeholder="in progress/deployed/complete" onChange={this.addStatus}/></div>
 						<div>All Set?</div>
-						<Button type={"primary"} disabled={this.ifloggedIn()} onClick={this.publish}>{this.publishText()}</Button>
+						<Button type={"primary"} disabled={ !(this.state.canPublish) } onClick={this.publish}>{this.publishText()}</Button>
 					</Card>
 				</div>
 				</div>
