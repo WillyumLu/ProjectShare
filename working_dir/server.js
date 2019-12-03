@@ -160,7 +160,16 @@ app.post('/findProject', (req, res) => {
 		res.status(404).send(error)
     })
 });
-
+app.post('/findFuzzyTitle', (req, res) => {
+    Project.findFuzzyTitle(req.body.title)
+    .then((project) => {
+        log("I FOUND ITTTTTTTTTTTTT")
+        res.status(200).send({ project: project });
+    }).catch((error) => {
+        log("OH NO")
+        res.status(404).send(error)
+    })
+});
 //endpoint to upload an avatar
 app.post("/upload/avatar", multipart(), (req, res) => {
     log(req.files)
