@@ -2,7 +2,7 @@ import React from 'react';
 import 'antd/dist/antd.css';
 import QueueAnim from 'rc-queue-anim';
 import { setState } from './../../actions/helpers'
-import {readUser, updateUser} from './../../actions/user'
+import {readUser, updateUser, changeName, changePassword} from './../../actions/user'
 import {deleteProject} from './../../actions/project'
 import { Redirect ,Link} from 'react-router-dom'
 import BaseReactComponent from "./../BaseReactComponent";
@@ -219,16 +219,12 @@ class SettingAccountForm extends BaseReactComponent{
     };
 
     submitNewName = () =>{
-        //validate the new user name
-        //For phase 1 we don't do validation because no exist user data hardcoded on this page
-
-        //change the username
-        //replace it with server call on phase 2
-        this.state.userdata.userName = this.state.newName? this.state.newName:this.state.userdata.userName;
-
-        //reload the webpage
-        //For phase 1 it doesn't change the user view because data are hardcoded, all changes are gone when refreshed.
-        window.location.reload();    
+        const { userdata } = this.state
+        if (this.state.newName){
+            const body =  {user: userdata.username, newName: this.state.newName}
+            log(body)
+            changeName(body)
+        }
     }
 
     compareToFirstPassword = (rule, value, callback) => {
@@ -254,9 +250,12 @@ class SettingAccountForm extends BaseReactComponent{
             if (!err) {
                 //change the user's password
                 //replace it with a server call in phase 2
-                this.state.userdata.password = values.Password;
-                console.log("new password:", values.password);
-                window.location.reload();   
+        
+                const { userdata } = this.state
+                const body = {user: userdata.username, newPassWord: values.password}
+                log(body)
+                changePassword(body)
+                
             }
           });
        

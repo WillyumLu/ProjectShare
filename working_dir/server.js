@@ -22,6 +22,8 @@ db.once("open", function() {
     gfs = new mongoose.mongo.GridFSBucket(db.db);
 });
 
+const bcrypt = require('bcryptjs')
+
 // import the mongoose models
 const { User } = require('./models/user')
 const { Project } = require('./models/project')
@@ -188,6 +190,56 @@ app.patch("/api/user",(req, res) =>{
         res.status(401).send();
     }
 
+})
+
+//endpoint to upadate username
+app.patch("/api/user/username",(req, res) =>{
+    const username = req.body.user 
+    const newName = req.body.newName
+    log("Change username for " + username)
+    User.findOne({username: username}).then(user => {
+            if(!user){
+                res.status(404).send();
+            }
+            else{
+                User.findOne({username: newName}).then(existed => {
+                    if (!existed){
+                        user.username = newName
+                        user.save().then((updated) => {res.send(updated)}
+                        )
+                    }
+                    else{
+                        log("User already exist!")
+                        res.status(400).send()
+                    }
+                })
+            }
+        }).catch((error) => {
+            res.status(500).send()
+        })
+})
+
+//endpoint to upadate password
+app.patch("/api/user/password",(req, res) =>{
+    const username = req.body.user 
+    const newPassWord = req.body.newPassWord
+    log("Change password for " + username)
+    bcrypt.genSalt(10, (err, salt) => {
+        bcrypt.hash(newPassWord, salt, (err, hash) => {
+            User.findByUsername(username).then(user => {
+                if(!user){
+                    res.status(404).send();
+                }
+                else{
+                    user.password = newPassWord
+                    user.save().then(updated => {res.send(updated)})
+                        
+                    }
+            }).catch((error) => {
+                res.status(400).send()
+            })
+        })
+    })
 })
 
 // save a project

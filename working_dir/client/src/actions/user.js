@@ -109,6 +109,7 @@ export const logout = () => {
     fetch(url)
         .then(res => {
             setEmptyState();
+            window.location.replace("/")
         })
         .catch(error => {
             console.log(error);
@@ -164,3 +165,57 @@ export const updateUser = (content) => {
             log(error);
         });
 }
+
+export const changeName = (body) => {
+    log("Update username")
+    const url = "/api/user/username"
+    const request = new Request(url, {
+        method: 'PATCH',
+        body: JSON.stringify(body),
+        headers: {
+            Accept: "application/json, text/plain, */*",
+            "Content-Type": "application/json"
+        }
+    });
+    fetch(request).then(res => {
+        if (res.status === 200) {
+            log(res.json);
+            alert("Update successful!")
+            logout()
+        }
+        else if (res.status === 400){
+            alert("Username already exist!")
+        }
+    }).catch(error => {
+        log("error")
+        log(error);
+    });
+}
+
+export const changePassword = (body) => {
+    log("Update password")
+    const url = "/api/user/password"
+    const request = new Request(url, {
+        method: 'PATCH',
+        body: JSON.stringify(body),
+        headers: {
+            Accept: "application/json, text/plain, */*",
+            "Content-Type": "application/json"
+        }
+    });
+
+    fetch(request).then(res => {
+        if (res.status === 200) {
+            log(res.json);
+            alert("Update successful!")
+            logout()
+        }
+        else if (res.status === 400){
+            alert("Cannot update password, please try agin later")
+        }
+    }).catch(error => {
+        log("error")
+        log(error);
+    });
+}
+
