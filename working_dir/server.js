@@ -259,7 +259,7 @@ app.post('/addProject', (req, res) => {
         image2: req.body.image2,
         image3: req.body.image3,
         creator: req.body.creator,
-        requested: [],
+        description: req.body.description,
         members: []
     })
     project.save().then(
@@ -440,7 +440,7 @@ app.post("/join/:title", (req, res) => {
     .then((project) => {
         log("I FOUND ITTTTTTTTTTTTT")
         log(project)
-        project.requested.push(req.session.userID)
+        project.members.push(req.session.userID)
         log(project.requested)
         project.save()
         res.status(200).send(req.session.userID);
