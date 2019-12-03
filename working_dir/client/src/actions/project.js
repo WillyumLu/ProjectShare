@@ -68,3 +68,32 @@ export const deleteProject = (projectID) => {
             log(error);
         });
 };
+
+export const addJoinRequest = (title) => {
+    // Create our request constructor with all the parameters we need
+    console.log(title)
+    const request = new Request(`/join/${title}`, {
+        method: "post",
+        headers: {
+            Accept: "application/json, text/plain, */*",
+            "Content-Type": "application/json"
+        }
+    });
+    log("created post /join request")
+    // Send the request with fetch()
+    fetch(request)
+        .then(res => {
+            if (res.status === 200) {
+                return res.json();
+            }
+        })
+        .then(json => {
+            // returns the user id
+            if(json.id !== undefined){
+                console.log(json.id)
+            }
+        })
+        .catch(error => {
+            console.log(error);
+        });
+}

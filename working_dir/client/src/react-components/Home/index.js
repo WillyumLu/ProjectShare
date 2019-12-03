@@ -8,6 +8,7 @@ import {message, Icon, Upload, Card, Input, Button} from 'antd';
 import { uid } from 'react-uid';
 import './Home.css';
 import { updateProjectList } from "./../../actions/project"
+import { getAllUsers } from "./../../actions/user"
 import { isPromiseAlike } from 'q';
 import Navigation from '../Navigation'
 import {readUser} from './../../actions/user'
@@ -70,8 +71,7 @@ var projectData = {
 	likes: 0,
 	image1: null,
 	image2: null,
-	image3: null,
-	creator: null,
+	image3: null
 }
 
 const allProjects = {};
@@ -173,6 +173,7 @@ class Home extends BaseReactComponent {
 		super(props)
 		updateProjectList()
 		readUser()
+		getAllUsers()
 	  	this.state = {projects: allProjects,
 						selectedProject: null,
 						canPublish: false
@@ -200,7 +201,7 @@ class Home extends BaseReactComponent {
 	}
 	publishText(userdata) {
 		if (getState("currentUser")){
-			projectData.creator = userdata._id 
+			projectData.creator = userdata._id
 			return "Publish!"
 		}
 		return "You must be logged in!"
@@ -225,16 +226,14 @@ class Home extends BaseReactComponent {
 
 	render() {
 		const { projectList, userdata } = this.state;
-		if(this.props.location.pathname === "/projectView"){
-			const title = this.state.selectedProject;
+		 if(this.props.location.pathname === "/projectView"){
+			 const title = this.state.selectedProject;
 		 	console.log(this.state.selectedProject)
-			console.log(this.state.projects[this.state.selectedProject])
-			const goto = projectList.filter(project =>project.title === title)[0]
+		 	console.log(this.state.projects[this.state.selectedProject])
 		 	return(
-				<Redirect to={{
-					pathname: '/projectView',
-					state: { project: goto }
-				}}/>
+			 	<div>
+			 		<ProjectView project={(projectList.filter((project)=>project.title === title))[0]}/>
+			 	</div>
 		 	)
 		 }	
 		 else if (this.props.location.pathname === "/"){

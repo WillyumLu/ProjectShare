@@ -422,7 +422,6 @@ const tabList = [
         key: 'settings',
         tab: 'Settings',
     },
-
     {
         key: 'userlist',
         tab: 'Mange Users',
@@ -432,7 +431,6 @@ const tabList = [
         key: 'projlist',
         tab: 'Mange Projects',
     }
-
   ];
 
 class ProjectList extends React.Component{
@@ -823,7 +821,7 @@ class ProjManager extends React.Component{
         )
     }
 }
-class UserView extends React.Component{
+class AdminView extends React.Component{
     constructor(props) {
         super(props);
         this.rerenderParentCallback = this.rerenderParentCallback.bind(this);
@@ -851,8 +849,7 @@ class UserView extends React.Component{
             profile: userinfo,
             settings: settingContent,
             userlist:<UserManager/>,
-            projlist: <ProjManager/>            
-
+            projlist: <ProjManager/> 
           };
         return(
             <Layout>                
@@ -886,4 +883,4 @@ class UserView extends React.Component{
     }
 
 }
-export default UserView;
+export default AdminView;

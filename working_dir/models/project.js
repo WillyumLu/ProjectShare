@@ -7,14 +7,6 @@ const bcrypt = require('bcryptjs')
 // Making a Mongoose model a little differently: a Mongoose Schema
 // Allows us to add additional functionality.
 const ProjectSchema = new mongoose.Schema({
-    // id: 2,
-	// title: "Project3",
-	// start_date: "1999-11-14",
-	// status: "in progress",
-	// likes: 0,
-	// image1: require('./projimg.jpg'),
-	// image2: require('./projimg.jpg'),
-	// image3: require('./southeast.jpg')
     title: {
         type: String,
         unique: true,
@@ -30,11 +22,10 @@ const ProjectSchema = new mongoose.Schema({
 		required: true,
 		minlength: 1
     },
-    description:{
-        type: String,
-        required:false
-    }
-    ,
+    description: {
+        type: String, 
+        required: false
+    },
     likes: {
         type: Number
     },

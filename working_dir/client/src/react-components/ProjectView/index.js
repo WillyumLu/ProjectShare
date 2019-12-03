@@ -1,6 +1,7 @@
 import React from 'react';
 import {PageHeader, Button} from 'antd';
 import BaseReactComponent from '../BaseReactComponent';
+import { addJoinRequest } from '../../actions/project'
 const log = console.log
 
 class ProjectView extends BaseReactComponent {
@@ -137,7 +138,7 @@ class ProjectView extends BaseReactComponent {
 					</div>
 				</div>
 				<div class="request">
-					<Button type="dashed" className="requestButton"> request to join </Button>
+					<Button type="dashed" className="requestButton" onClick = {() => addJoinRequest(this.project.title)}> request to join </Button>
 				</div>
 			 </div>
 			)

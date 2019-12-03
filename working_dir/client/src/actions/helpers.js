@@ -30,13 +30,15 @@ export const setEmptyState = () => {
                             image2:"",
                             image3:"",
                             creator:emptyUser}
-	setState("erorrMessage", null)
+    setState("userList", null);
+    setState("userIsAdmin", null);
+	setState("errorMessage", null)
 	setState("logInPath", false)
     setState("currentUser", null);
     setState("loginForm", { username: "", password: "" });
     setState("projectList", []);
-    setState("userdata", emptyUser,
-    setState("projectView", emptyProject));
+    setState("userdata", emptyUser)
+    setState("projectView", emptyProject);
 };
 
 // Helper method to set a state path.

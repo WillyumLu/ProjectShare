@@ -66,11 +66,13 @@ app.post('/login', (req, res) => {
     const password = req.body.password
 
     // Use the static method on the User model to find a user
-    // by their email and password
+    // by their username
     User.findByUsernamePassword(username, password)
     .then((user) => {
         log("I FOUND ITTTTTTTTTTTTT")
-        req.session.user = username
+        req.session.userID = user._id
+        req.session.user = user.username
+        req.session.type = user.type
         res.status(200).send({ currentUser: user.username, type: user.type });
     }).catch((error) => {
         log("NOOOOOOOOOPPPPPPPPPPPPPPPEEEEEEEE")
@@ -82,6 +84,8 @@ app.post('/login', (req, res) => {
 app.post("/signup", (req, res) => {
     log(req.body);
     const userType = req.body.type === "admin" ? "admin" : "user" 
+    req.session.user = req.body.username;
+    req.session.type = userType;
     // Create a new user
     const user = new User({
         username: req.body.username,
@@ -100,6 +104,7 @@ app.post("/signup", (req, res) => {
     // Save the user
     user.save().then(
         user => {
+            req.session.userID = user._id
             res.status(200).send({ currentUser: user.username, type: user.type });
         },
         error => {
@@ -120,8 +125,9 @@ app.get("/logout", (req, res)=>{
 })
 
 app.get("/users/check-session", (req, res) => {
+    console.log(req.session.user)
     if (req.session.user) {
-        res.send({ currentUser: req.session.user });
+        res.send({ currentUser: req.session.user, type: req.session.type });
     } else {
         res.status(401).send();
     }
@@ -254,7 +260,7 @@ app.post('/addProject', (req, res) => {
         image3: req.body.image3,
         creator: req.body.creator,
         description: req.body.description,
-        members:[]
+        members: []
     })
     project.save().then(
         project => {
@@ -301,13 +307,39 @@ app.delete('/deleteProject/:id', (req, res) => {
         res.status(404).send();
     }
 
-    // Delete a project by their id
+    // Delete a student by their id
+
     Project.findByIdAndRemove(id)
         .then(project => {
             if (!project) {
                 res.status(404).send();
             } else {
                 res.send(project);
+            }
+        })
+        .catch(error => {
+            res.status(500).send(); // server error, could not delete.
+        });
+});
+
+// delete a user
+app.delete('/deleteUser/:id', (req, res) => {
+    console.log("deleting user")
+    const id = req.params.id
+    console.log(id)
+
+     // Validate id
+    if (!ObjectID.isValid(id)) {
+        res.status(404).send();
+    }
+
+    // Delete a user by their id
+    User.findByIdAndRemove(id)
+        .then(user => {
+            if (!user) {
+                res.status(404).send();
+            } else {
+                res.send(user);
             }
         })
         .catch(error => {
@@ -327,6 +359,18 @@ app.get('/allProjects', (req, res) => {
     );
 
 });
+
+/// Route for getting all users.
+app.get('/users', (req, res) => {
+    // Add code here
+    User.find({type: "user"}).then(
+        (user) => {
+            res.send({ user })
+    }, 
+    (error) => {
+        res.status(500).send(error) // server error
+    })
+})
 
 // endpoint to get all projects by user id
 app.get('/allProjects/:id', (req, res) => {
@@ -411,6 +455,24 @@ app.post("/upload/projimg", multipart(), (req, res) => {
     writeStream.on('error', () => {
         return res.status(500).json({ message: "Error uploading file" });
       });
+})
+
+app.post("/join/:title", (req, res) => {
+    log("server join request")
+    log(req.params.title)
+    Project.findByTitle(req.params.title)
+    .then((project) => {
+        log("I FOUND ITTTTTTTTTTTTT")
+        log(project)
+        project.members.push(req.session.userID)
+        log(project.requested)
+        project.save()
+        res.status(200).send(req.session.userID);
+    }).catch((error) => {
+        log("OH NO")
+        res.status(404).send(error)
+    })
+
 })
 
 /*** Webpage routes below **********************************/

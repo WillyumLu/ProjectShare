@@ -1,9 +1,9 @@
 import React from 'react';
 import { Route, Switch, BrowserRouter } from 'react-router-dom';
 /*the main page*/
-import BaseReactComponent from '../../react-components/BaseReactComponent'
-import SignUpBox from '../../react-components/SignUp'
-import LoginBox from '../../react-components/Login'
+import BaseReactComponent from '../BaseReactComponent'
+import SignUpBox from '../SignUp'
+import LoginBox from '../Login'
 
 class Entry extends BaseReactComponent {
 
