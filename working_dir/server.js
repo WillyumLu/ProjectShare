@@ -444,14 +444,36 @@ app.get("/retrieve/:id", (req, res) => {
 })
 
 //endpoint to upload an project image
-app.post("/upload/projimg", multipart(), (req, res) => {
-    log(req.files)
+app.post("/upload/projimg/:id/:imageNum", multipart(), (req, res) => {
+	 log(req.files)
+	 id = req.params.id
+	 imageNum = req.params.imageNum
     const filename = req.files.projimg.originalFilename || path.basename(req.files.projimg.path);
     const writeStream = gfs.openUploadStream(filename)
     fs.createReadStream(req.files.projimg.path).pipe(writeStream)
     writeStream.on('finish', function (file) {
-        res.send(`File has been uploaded ${file._id}`);
+        const imageUri = "/retrieve/" + file._id
+        Project.findOneById(id).then(project => {
+            if (!project){
+                res.status(404).send();
+            }
+            else{
+                if (imageNum === "image1"){
+							project.image1 = imageUri                
+                }
+                if (imageNum === "image2"){
+							project.image2 = imageUri                
+                }
+					 if (imageNum === "image3"){
+							project.image3 = imageUri                
+                }
+            }
+            project.save().then(updated => {res.send(updated)})
+        }).catch((error) => {
+            res.status(500).send()
+        })
     });
+    
     writeStream.on('error', () => {
         return res.status(500).json({ message: "Error uploading file" });
       });
