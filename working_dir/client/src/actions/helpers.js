@@ -31,7 +31,7 @@ export const setEmptyState = () => {
                             creator:emptyUser}
     setState("userList", null);
     setState("userIsAdmin", null);
-	setState("erorrMessage", null)
+	setState("errorMessage", null)
 	setState("logInPath", false)
     setState("currentUser", null);
     setState("loginForm", { username: "", password: "" });

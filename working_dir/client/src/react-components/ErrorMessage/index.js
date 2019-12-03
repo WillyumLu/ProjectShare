@@ -9,7 +9,7 @@ class ErrorMessage extends React.Component {
         return (
             <div className="error">
                 <div className="errorMessage">
-                    "User does not exist"
+                    Username or Password is incorrect
                 </div>
             </div>
         );

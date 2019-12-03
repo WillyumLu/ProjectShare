@@ -45,9 +45,12 @@ export const login = (username, password) => {
     fetch(request)
         .then(res => {
             if (res.status === 200) {
-                console.log(localStorage.getItem('loggedIn'))
+                setState("errorMessage", null)
                 return res.json();
             }
+            console.log("set state")
+            setState("errorMessage", "true")
+            console.log(JSON.stringify(getState("errorMessage")))
         })
         .then(json => {
             // if the returned type is admin, indicating that the user is an admin
@@ -62,9 +65,6 @@ export const login = (username, password) => {
             }
         })
         .catch(error => {
-            console.log("set state")
-            setState('erorrMessage', true)
-            console.log(JSON.stringify(getState('errorMessage')))
             log("error")
             console.log(error);
         });
