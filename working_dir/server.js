@@ -84,7 +84,16 @@ app.post("/signup", (req, res) => {
     const user = new User({
         username: req.body.username,
         password: req.body.password,
-        type: userType
+        type: userType,
+        profileImage: null,
+        firstName:"",
+        lastName:"",
+        school:"",
+        bio:"",
+        email:"",
+        email:"",
+        phone:"",
+        projects:[]
     });
     // Save the user
     user.save().then(
@@ -114,6 +123,71 @@ app.get("/users/check-session", (req, res) => {
     } else {
         res.status(401).send();
     }
+})
+
+//endpoint to get user data
+app.get("/api/user",(req, res) =>{
+    log("Session user: " + req.session.user)
+    const username = req.session.user
+    if (username){
+        log("Getting information for "+ username)
+        User.findByUsername(username).then(user =>{
+            if(!user){
+                res.status(404).send();
+            }
+            else{
+                res.send(user)
+            }
+        }).catch((error) => {
+            res.status(500).send()
+        })
+        
+    }
+    else{
+        res.status(401).send();
+    }
+
+})
+
+//endpoint to upadate user data
+app.patch("/api/user",(req, res) =>{
+    log("request received")
+    log(req.body)
+    const username = req.session.user
+    if (username){
+        log(req.body)
+        const firstName = req.body.firstName
+        const lastName = req.body.lastName
+        const school = req.body.school
+        const bio = req.body.bio
+        const email = req.body.email
+        const phone = req.body.phone
+        log(firstName)
+        log("Update information for "+ username)
+        User.findOneAndUpdate({username: username}, 
+            {$set: {
+                firstName: firstName,
+                lastName: lastName,
+                school: school,
+                bio: bio,
+                email:email,
+                phone: phone
+        }}, {new:true, useFindAndModify: false}).then(user =>{
+            if(!user){
+                res.status(404).send();
+            }
+            else{
+                res.send(user)
+            }
+        }).catch((error) => {
+            res.status(500).send()
+        })
+        
+    }
+    else{
+        res.status(401).send();
+    }
+
 })
 
 // save a project
@@ -166,13 +240,25 @@ app.post("/upload/avatar", multipart(), (req, res) => {
     log(req.files)
     const filename = req.files.avatar.originalFilename || path.basename(req.files.avatar.path);
     const writeStream = gfs.openUploadStream(filename)
+    const user = req.session.user? req.session.user: "User01"
+    log("Upload profile Image for: " + user)    
     fs.createReadStream(req.files.avatar.path).pipe(writeStream)
     writeStream.on('finish', function (file) {
-        res.send(`File has been uploaded ${file._id}`);
+        const imageUri = "/retrieve/" + file._id
+        User.findOneAndUpdate({username: user}, {$set:{profileImage: imageUri}}, {new: true, useFindAndModify: false}).then(user => {
+            if (!user){
+                res.status(404).send();
+            }
+            else{
+                res.send(user)
+            }
+        }).catch((error) => {
+            res.status(500).send()
+        })
     });
     writeStream.on('error', () => {
         return res.status(500).json({ message: "Error uploading file" });
-      });
+    });
 })
 
 //endpoint to retrieve an file
@@ -180,15 +266,17 @@ app.get("/retrieve/:id", (req, res) => {
     const fileId = req.params.id
     log("Getting file with id:" + fileId)
     const readStream = gfs.openDownloadStream(ObjectID(fileId))
-    readStream.on('data', function (data) {
-        res.send(data)
-    });
-    readStream.on('error', () => {
-        return res.status(404).json({ message: "Cannot find the file" });
-    });
-    readStream.on('end', () => {
-        return res.end();
-    });
+    readStream.pipe(res)
+    // readStream.on('data', function (data) {
+    //     res.send(data)
+    //     return
+    // });
+    // readStream.on('error', () => {
+    //     return res.status(404).json({ message: "Cannot find the file" });
+    // });
+    // readStream.on('end', () => {
+    //     return next();
+    // });
 })
 
 //endpoint to upload an project image
