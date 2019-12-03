@@ -29,7 +29,7 @@ export const updateSearchKeyWord = field => {
 
 export const search = (username, password) => {
     // Create our request constructor with all the parameters we need
-    const request = new Request("/findProject", {
+    const request = new Request("/findFuzzyTitle", {
         method: "POST",
         body: JSON.stringify(getState("searchKeyWord")),
         headers: {
