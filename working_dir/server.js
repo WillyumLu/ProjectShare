@@ -199,7 +199,8 @@ app.post('/addProject', (req, res) => {
         likes: req.body.likes,
         image1: req.body.image1,
         image2: req.body.image2,
-        image3: req.body.image3
+        image3: req.body.image3,
+        creator: req.body.creator
     })
     project.save().then(
         project => {
@@ -211,10 +212,51 @@ app.post('/addProject', (req, res) => {
     );
 });
 
+// delete a project
+app.delete('/deleteProject/:id', (req, res) => {
+    console.log("deleting")
+    const id = req.params.id
+    console.log(id)
+
+     // Validate id
+    if (!ObjectID.isValid(id)) {
+        res.status(404).send();
+    }
+
+    // Delete a project by their id
+    Project.findByIdAndRemove(id)
+        .then(project => {
+            if (!project) {
+                res.status(404).send();
+            } else {
+                res.send(project);
+            }
+        })
+        .catch(error => {
+            res.status(500).send(); // server error, could not delete.
+        });
+});
+
 app.get('/allProjects', (req, res) => {
     Project.find().then(
         projects => {
             log();
+            res.send({ projects }); // can wrap in object if want to add more properties
+        },
+        error => {
+            res.status(500).send(error); // server error
+        }
+    );
+
+});
+
+// endpoint to get all projects by user id
+app.get('/allProjects/:id', (req, res) => {
+    const creator = req.params.id
+    Project.find({creator: creator}).then(
+        projects => {
+            log("getting all projects for user: ", creator )
+            log(projects);
             res.send({ projects }); // can wrap in object if want to add more properties
         },
         error => {
@@ -241,7 +283,7 @@ app.post("/upload/avatar", multipart(), (req, res) => {
     const filename = req.files.avatar.originalFilename || path.basename(req.files.avatar.path);
     const writeStream = gfs.openUploadStream(filename)
     const user = req.session.user? req.session.user: "User01"
-    log("Upload profile Image for: " + user)    
+    log("Upload profile image for: " + user)    
     fs.createReadStream(req.files.avatar.path).pipe(writeStream)
     writeStream.on('finish', function (file) {
         const imageUri = "/retrieve/" + file._id

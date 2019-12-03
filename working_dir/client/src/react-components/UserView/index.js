@@ -1,11 +1,15 @@
 import React from 'react';
 import 'antd/dist/antd.css';
 import QueueAnim from 'rc-queue-anim';
+import { setState } from './../../actions/helpers'
 import {readUser, updateUser} from './../../actions/user'
-import { Redirect } from 'react-router-dom'
+import {deleteProject} from './../../actions/project'
+import { Redirect ,Link} from 'react-router-dom'
 import BaseReactComponent from "./../BaseReactComponent";
 import { message, Avatar, Layout, List, Card, Descriptions, Collapse, Form, Input,Button, Modal,Tag, Icon, Upload} from 'antd';
 import { LOADIPHLPAPI } from 'dns';
+import { read, link } from 'fs';
+import ProjectView from '../ProjectView';
 const { Content } = Layout;
 const { Meta } = Card;
 const { Panel } = Collapse;
@@ -404,24 +408,28 @@ class ProjectList extends BaseReactComponent{
         return "blue"
     }
   
-    toPath(addr){
-        this.setState({redirect: true});
-        this.setState({projectAddr: addr});
+    toPath(proj){
+        setState("projectView", proj)
+        this.props.history.push('/projectView');
+        // this.setState({redirect: true});
+        // this.setState({goto: proj});
     }
     
     renderRedirect = () => {
-        if (this.state.redirect) {
-          return <Redirect to= {this.state.projectAddr}/>
-        }
+        // if (this.state.redirect) {
+        //   return <Redirect to={{
+        //     pathname: '/projectView',
+        //     state: { project: this.state.goto }
+        // }}/>
+    // }
     }
 
     //quit the project
     //should be changed in phase 2
     handleDelete(item, userdata){
         //replace it with a server call    
-        
-        // this.state.userdata.projects.splice(this.state.userdata.projects.indexOf(item), 1);         
-        // this.props.rerenderParentCallback();
+        deleteProject(item._id)
+        this.props.rerenderParentCallback();
     }
     
       render(){
@@ -429,17 +437,19 @@ class ProjectList extends BaseReactComponent{
           log('State in ProjectList')
           log(userdata)
           const items = userdata.projects.map((item) => 
-          <div key= {item.id}>    
+          <div key= {item._id}>    
             <List.Item >                        
                 <Card style={{width: '50%'}} 
                 actions={[
-                    <Icon type="select" key= "detail" onClick={() => this.toPath(item.link)}/>,
+                    // <Link to={'/projectView'}> 
+                        <Icon type="select" key= "detail" onClick={() => this.toPath(item)} />,
+                    // </Link>, 
                     <Icon type="edit" key="edit" />,
-                    <Icon type="delete" key="delete"  onClick={() => this.handleDelete(item)}/>,
+                    <Icon type="delete" key="delete"  onClick={() => this.handleDelete(item, userdata)}/>,
                     ]}                  
                     >
                     <Meta
-                        avatar = {<Avatar src ={item.avatar}/>}
+                        avatar = {<Avatar src ={item.image1}/>}
                         title = {item.title}
                         description = {<div><br/><Tag color= {this.decideColor(item)}>{item.status}</Tag></div>}                   
                     />                                               
@@ -496,7 +506,7 @@ class UserView extends BaseReactComponent{
         log("State in UserView")
         log( userdata.username)
         const contentListNoTitle = {
-            project: <ProjectList key="projlst" rerenderParentCallback={this.rerenderParentCallback} userdata={userdata}/>,      
+            project: <ProjectList key="projlst" rerenderParentCallback={this.rerenderParentCallback} userdata={userdata} history={this.props.history}/>,      
             profile: userinfo,
             settings: settingContent
           };

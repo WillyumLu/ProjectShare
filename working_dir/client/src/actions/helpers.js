@@ -10,12 +10,7 @@ import { action } from "statezero";
 // - studentForm and message state paths are used by the StudentForm component
 // - studentList state path is used by the StudentList component
 export const setEmptyState = () => {
-	setState("erorrMessage", null)
-	setState("logInPath", false)
-    setState("currentUser", null);
-    setState("loginForm", { username: "", password: "" });
-    setState("projectList", []);
-    setState("userdata", {username: "",
+    const emptyUser = {username: "",
                         password:"",
                         firstName:"",
                         lastName:"",
@@ -25,7 +20,22 @@ export const setEmptyState = () => {
                         phone:"",
                         projects:[],
                         type:"user",
-                        profileImage: null});
+                        profileImage: null}
+    const emptyProject = {title: "",
+                            start_date:"",
+                            status:"",
+                            likes: "",
+                            image1:"",
+                            image2:"",
+                            image3:"",
+                            creator:emptyUser}
+	setState("erorrMessage", null)
+	setState("logInPath", false)
+    setState("currentUser", null);
+    setState("loginForm", { username: "", password: "" });
+    setState("projectList", []);
+    setState("userdata", emptyUser,
+    setState("projectView", emptyProject));
 };
 
 // Helper method to set a state path.

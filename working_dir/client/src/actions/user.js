@@ -123,7 +123,18 @@ export const readUser = () => {
             }
     }).then(user => {
         log(user)
-        setState("userdata", user)
+        const projectURL = "/allProjects/" + user._id
+        fetch(projectURL).then(res => {
+            log("Getting project information")
+            if (res.status === 200){
+                return res.json()
+            }
+        }).then(resJson => {
+            log(resJson.projects)
+            user.projects = resJson.projects
+            log(user)
+            setState("userdata", user)
+        })
     }).catch(error => {
         console.log(error);
     });

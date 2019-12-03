@@ -1,7 +1,8 @@
 import React from 'react';
 import './Project.css'
 import { Avatar, Icon, Layout, List, Card, Carousel, Popover, Button, Progress} from 'antd';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
+import { setState } from './../../actions/helpers'
 const log = console.log
 
 class Project extends React.Component {
@@ -45,6 +46,8 @@ class Project extends React.Component {
 	}
 	onItemClick(event) {
 		/*for the div that was clicked, send an object of it's info back to the Home component*/
+		setState("projectView", this.project)
+		this.props.history.push('/projectView')
 		this.props.sendSelectedProject(this.project.title);
 	}
 	render() {
@@ -52,9 +55,9 @@ class Project extends React.Component {
 		return(
 			<div className="project">
 				<Card id="card" title = {this.project.title} style = {{"borderRadius": "1%", margin: "10px", float: "left", hoverable: true, width: 900}}>
-					<Link to={'/projectView'}>
+					{/* <Link to={'/projectView'}> */}
 						<Button type="dashed" id="viewButton" onClick = {this.onItemClick}>View</Button>
-					</Link>
+					{/* </Link> */}
 					<Carousel autoplay>
 						<div className="slideImage">
 							<img src={this.project.image1}/>

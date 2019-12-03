@@ -10,6 +10,8 @@ import './Home.css';
 import { updateProjectList } from "./../../actions/project"
 import { isPromiseAlike } from 'q';
 import Navigation from '../Navigation'
+import {readUser} from './../../actions/user'
+import { Redirect } from 'react-router-dom'
 
 var Center = require('react-center');
 
@@ -67,7 +69,8 @@ var projectData = {
 	likes: 0,
 	image1: null,
 	image2: null,
-	image3: null
+	image3: null,
+	creator: null,
 }
 
 const allProjects = {};
@@ -160,13 +163,15 @@ class UploadProjectPicture extends React.Component{
 
 class Home extends BaseReactComponent {
 
-	filterState({ projectList }) {
-        return { projectList };
+	filterState({ projectList, userdata }) {
+		console.log("Home is calling filterState")
+        return { projectList, userdata };
     }
 
 	constructor(props) { // When the componenet is created,  calls load data
 		super(props)
 		updateProjectList()
+		readUser()
 	  	this.state = {projects: allProjects,
 						selectedProject: null,
 						canPublish: false
@@ -187,11 +192,12 @@ class Home extends BaseReactComponent {
 	}
 	addStatus = (event) => {
 		projectData.status = event.target.value
-		this.setState({canPublish: (projectData.title && projectData.status && projectData.imagesUploaded>=3)})
+		this.setState({canPublish: (projectData.title && projectData.status)})
 
 	}
-	publishText() {
+	publishText(userdata) {
 		if (getState("currentUser")){
+			projectData.creator = userdata._id 
 			return "Publish!"
 		}
 		return "You must be logged in!"
@@ -215,15 +221,17 @@ class Home extends BaseReactComponent {
 	}*/
 
 	render() {
-		const { projectList } = this.state;
-		 if(this.props.location.pathname === "/projectView"){
-			 const title = this.state.selectedProject;
+		const { projectList, userdata } = this.state;
+		if(this.props.location.pathname === "/projectView"){
+			const title = this.state.selectedProject;
 		 	console.log(this.state.selectedProject)
-		 	console.log(this.state.projects[this.state.selectedProject])
+			console.log(this.state.projects[this.state.selectedProject])
+			const goto = projectList.filter(project =>project.title === title)[0]
 		 	return(
-			 	<div>
-			 		<ProjectView project={(projectList.filter((project)=>project.title === title))[0]}/>
-			 	</div>
+				<Redirect to={{
+					pathname: '/projectView',
+					state: { project: goto }
+				}}/>
 		 	)
 		 }	
 		 else if (this.props.location.pathname === "/"){
@@ -265,7 +273,7 @@ class Home extends BaseReactComponent {
 						<div>Status:</div>
 						<div><Input placeholder="in progress/deployed/complete" onChange={this.addStatus}/></div>
 						<div>All Set?</div>
-						<Button type={"primary"} disabled={ !(this.state.canPublish) } onClick={this.publish}>{this.publishText()}</Button>
+						<Button type={"primary"} disabled={ !(this.state.canPublish) } onClick={this.publish}>{this.publishText(userdata)}</Button>
 					</Card>
 				</div>
 				</div>
