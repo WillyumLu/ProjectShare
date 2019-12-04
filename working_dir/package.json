@@ -1,9 +1,6 @@
 {
   "name": "sq",
   "version": "0.1.0",
-  "engines": {
-    "node": "12.13.0"
-  },
   "private": true,
   "dependencies": {
     "antd": "^3.24.2",
@@ -27,7 +24,7 @@
     "validator": "^10.11.0"
   },
   "scripts": {
-    "start": "mode server.js",
+    "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "heroku-postbuild": "cd client && npm install && npm run build",
