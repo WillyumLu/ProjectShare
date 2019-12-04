@@ -24,10 +24,10 @@
     "validator": "^10.11.0"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "cd working_dir && node server.js",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "heroku-postbuild": "cd client && npm install && npm run build",
+    "heroku-postbuild": "cd working_dir && npm install && cd client && npm install && npm run build",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
