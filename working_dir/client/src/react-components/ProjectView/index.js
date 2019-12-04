@@ -123,7 +123,7 @@ class ProjectView extends BaseReactComponent {
 					</div>
 				</div>
 				<div class="request">
-					<Button type="dashed" className="requestButton" onClick = {() => addJoinRequest(this.project.title)}> request to join </Button>
+					<Button type="dashed" className="requestButton" onClick = {() => addJoinRequest(this.project.title)}> join </Button>
 				</div>
 			 </div>
 			)

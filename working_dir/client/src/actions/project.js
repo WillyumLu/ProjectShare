@@ -75,6 +75,32 @@ export const deleteProject = (projectID) => {
         });
 
 }
+
+export const deleteMemberFromProject = (projectID, userName) => {
+    // Create our request constructor with all the parameters we need
+    console.log("Project Action memberDelete")
+    console.log(projectID)
+    console.log(userName)
+    const request = new Request(`/deleteMember/${projectID}/${userName}`, {
+        method: "delete"
+    });
+        // Send the request with fetch()
+    fetch(request)
+        .then(res => {
+            if (res.status === 200) {
+             // this is saved in local storage for now, need to use session and cookie
+             console.log("we made it")
+             updateProjectList()
+             readUser()
+            }
+        })
+        .catch(error => {
+            log("error")
+            log(error);
+        });
+
+}
+
 export const search = (projectID) => {
     // Create our request constructor with all the parameters we need
     const request = new Request("/findFuzzyTitle", {

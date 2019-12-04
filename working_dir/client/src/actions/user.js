@@ -192,6 +192,18 @@ export const readUser = () => {
             log(resJson.projects)
             user.projects = resJson.projects
             log(user)
+            /*setState("userdata", user)*/
+            return(user.projects)
+        }).then(projects => {
+            log(projects)
+            const allProjects = getState("projectList")
+            let i = 0
+            for(i = 0; i < allProjects.length; i++){
+                if(allProjects[i].members.includes(user._id)){
+                    user.projects.push(allProjects[i])
+                }
+            }
+            log(user)
             setState("userdata", user)
         })
     }).catch(error => {

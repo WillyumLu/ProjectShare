@@ -323,6 +323,41 @@ app.delete('/deleteProject/:id', (req, res) => {
         });
 });
 
+//remove member from a project
+app.delete('/deleteMember/:projectid/:userName', (req, res) => {
+    console.log("deleting member ********************************")
+    const proj = req.params.projectid
+    console.log(proj)
+    const useid = req.params.userName
+    console.log(useid)
+
+     // Validate id
+    if (!ObjectID.isValid(proj) || !ObjectID.isValid(useid)) {
+        res.status(404).send();
+    }
+    console.log("searching for project")
+    // Delete a student by their id
+    Project.findById(proj)
+        .then(project => {
+            if (!project) {
+                console.log("didn't find")
+                res.status(404).send();
+            } else {
+                console.log("found")
+                project.members.splice(project.members.indexOf(JSON.stringify(useid)), 1)
+                console.log("deleted user from member list")
+                project.save()
+                console.log("saved project")
+                console.log("sending back")
+                res.status(200).send()
+            }
+        })
+        .catch(error => {
+            console.log("wasn't able to send")
+            res.status(500).send(); // server error, could not delete.
+        });
+});
+
 // delete a user
 app.delete('/deleteUser/:id', (req, res) => {
     console.log("deleting user")

@@ -3,8 +3,9 @@ import 'antd/dist/antd.css';
 import QueueAnim from 'rc-queue-anim';
 import { setState } from './../../actions/helpers'
 import {readUser, updateUser, changeName, changePassword} from './../../actions/user'
-import {deleteProject, updateProject} from './../../actions/project'
+import {deleteProject, deleteMemberFromProject, updateProject} from './../../actions/project'
 import { Redirect ,Link} from 'react-router-dom'
+import { getState } from "statezero";
 import BaseReactComponent from "./../BaseReactComponent";
 import { message, Avatar, Layout, List, Card, Descriptions, Collapse, Form, Input,Button, Modal,Tag, Icon, Upload} from 'antd';
 import { LOADIPHLPAPI } from 'dns';
@@ -487,8 +488,13 @@ class ProjectList extends BaseReactComponent{
     //quit the project
     //should be changed in phase 2
     handleDelete(item, userdata){
-        //replace it with a server call    
-        deleteProject(item._id)
+        //replace it with a server call
+        if(Object.is(item.creator, userdata._id)){
+            deleteProject(item._id)
+        }  else {
+            console.log("UserView memberDelete *******************")
+            deleteMemberFromProject(item._id, getState("currentUser"))
+        }
         this.props.rerenderParentCallback();
     }
     showEdit = () =>{
