@@ -28,7 +28,8 @@ A few things need to happen first:
  - If you enter the incorrect credentials, are warning message will be displayed
  - Once you log in with correct username and password combination, or you sign up with a new username, you will be lead to the home page of the website
  - In the home page, you will be able see a list of all projects that are in the database
- - In addition, you can search for projects by keyword
+ - In addition, you can fuzzy search for projects by keyword
+  -It will give all the projects that contains this keyword
  - Once you have found a project that you are interested in, you can click on view to learn more about it
  - In the home page, users can view and edit their profile picture, username and password, as well as personal information
  - Admins have the added option of deleting existing projects/users
