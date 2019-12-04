@@ -419,10 +419,6 @@ const tabList = [
         tab: 'Mange Projects',
     },
     {
-      key: 'project',
-      tab: 'My project',
-    },
-    {
       key: 'profile',
       tab: 'My profile',
     },
@@ -847,7 +843,6 @@ class AdminView extends React.Component{
         const contentListNoTitle = {
             userlist: <AdminUserList key="userlst" rerenderParentCallback={this.rerenderParentCallback}/>,
             projlist: <AdminProjectList key="projlst" rerenderParentCallback={this.rerenderParentCallback} history={this.props.history} />,
-            project: <ProjectList key="projlst" rerenderParentCallback={this.rerenderParentCallback}/>,      
             profile: userinfo,
             settings: settingContent
           };

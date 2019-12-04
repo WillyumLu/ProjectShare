@@ -114,7 +114,6 @@ export const search = (username, password) => {
         });
 };
 
-<<<<<<< HEAD
 export const addJoinRequest = (title) => {
     // Create our request constructor with all the parameters we need
     console.log(title)
@@ -143,10 +142,9 @@ export const addJoinRequest = (title) => {
             console.log(error);
         });
 }
-=======
 
 export const updateSearchKeyWord = field => {
     const { name, value } = field;
     setState(`searchKeyWord.title`, value)
 };
->>>>>>> server2.0
+

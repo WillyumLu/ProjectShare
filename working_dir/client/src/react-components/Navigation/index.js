@@ -24,10 +24,6 @@ class Navigation extends BaseReactComponent {
     this.props.history.push("/userView");
   }
 
-  viewEditPage = () => {
-    this.props.history.push("/edit")
-  }
-
   render() {
     console.log("rendering navigation")
     const { userIsAdmin } = this.state
@@ -60,11 +56,6 @@ class Navigation extends BaseReactComponent {
         </Menu.Item>
         <Menu.Item onClick = {this.viewProfile} key="VIEW PROFILE" id="floatRight">
             VIEW PROFILE      
-        </Menu.Item>
-        <Menu.Item onClick = {this.viewEditPage} key="DELETE PROJECTS/USERS" id="floatRight">
-        {
-           userIsAdmin ? "DELETE PROJECTS/USERS" : ""
-        }
         </Menu.Item>
       </Menu>
     );
