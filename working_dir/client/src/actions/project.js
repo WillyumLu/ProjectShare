@@ -143,6 +143,31 @@ export const addJoinRequest = (title) => {
         });
 }
 
+export const updateProject = (body, id) => {
+    const url = "/editProject/" + id
+    const request = new Request(url, {
+        method: "PATCH",
+        body: JSON.stringify(body),
+        headers: {
+            Accept: "application/json, text/plain, */*",
+            "Content-Type": "application/json"
+        }
+    });
+    log("updating project information")
+    fetch(request)
+    .then(res => {
+        if (res.status === 200) {
+            return res.json();        }
+    })
+    .then(updated => {
+        log("updated project")
+        log(updated)
+        readUser()
+    })
+    .catch(error => {
+        console.log(error);
+    });
+}
 export const updateSearchKeyWord = field => {
     const { name, value } = field;
     setState(`searchKeyWord.title`, value)

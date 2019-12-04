@@ -3,7 +3,7 @@ import 'antd/dist/antd.css';
 import QueueAnim from 'rc-queue-anim';
 import { setState } from './../../actions/helpers'
 import {readUser, updateUser, changeName, changePassword} from './../../actions/user'
-import {deleteProject} from './../../actions/project'
+import {deleteProject, updateProject} from './../../actions/project'
 import { Redirect ,Link} from 'react-router-dom'
 import BaseReactComponent from "./../BaseReactComponent";
 import { message, Avatar, Layout, List, Card, Descriptions, Collapse, Form, Input,Button, Modal,Tag, Icon, Upload} from 'antd';
@@ -454,7 +454,10 @@ class ProjectList extends BaseReactComponent{
     state = {
         redirect: false,
         projectAddr: null, 
-        visible: false   
+        visible: false,
+        title:null,
+        status: null,
+        description: null   
     }
 
     decideColor(item){
@@ -470,15 +473,16 @@ class ProjectList extends BaseReactComponent{
         // this.setState({redirect: true});
         // this.setState({goto: proj});
     }
-    
-    renderRedirect = () => {
-        // if (this.state.redirect) {
-        //   return <Redirect to={{
-        //     pathname: '/projectView',
-        //     state: { project: this.state.goto }
-        // }}/>
-    // }
-    }
+
+    handleInputChange = (event) => {
+        const target = event.target;
+        const value = target.value;
+        const name = target.name;
+        this.setState({
+          [name]: value
+        })
+        log(this.state)    
+      }
 
     //quit the project
     //should be changed in phase 2
@@ -494,11 +498,19 @@ class ProjectList extends BaseReactComponent{
 		this.setState({visible: false})    
     }
     handleEdit(item){
+        this.setState({editting: item})
     	this.setState({editId: item._id})
 		this.showEdit()    
     }
     submitProjInfo = () =>{
-    
+        log("submit new info")
+        log(this.state)
+        const body = {title: this.state.title? this.state.title:this.state.editting.title,
+                        status: this.state.status? this.state.status:this.state.editting.status,
+                        description: this.state.description? this.state.description:this.state.editting.description}
+        log(body)
+        updateProject(body, this.state.editId);
+        this.cancelEdit()
     }
     
     
@@ -530,21 +542,33 @@ class ProjectList extends BaseReactComponent{
             const empty = <List dataSource = {[]}/>
           return(
             <div>
-            {this.renderRedirect()}
             <Modal 
                     visible={this.state.visible}
                     title="Edit your project"
+                    cancelText="Back"
                     okText="Submit"
                     onCancel={this.cancelEdit}
                     onOk={this.submitProjInfo}>
+                    <div>Upload image for your project</div>
+                    <div><br/></div>
                     <UploadProjectPicture url={"/upload/projimg/" + this.state.editId +"/image1"}/>
                     <UploadProjectPicture url={"/upload/projimg/" + this.state.editId +"/image2"}/>
                     <UploadProjectPicture url={"/upload/projimg/" + this.state.editId +"/image3"}/>
-                    {/* <Form layout="vertical">
-                        <Form.Item label="Username">
-                            <Input name = "newName" placeholder="new username" onChange={this.handleInputChange}/>
+                    <div>Edit project information</div>
+                    <div><br/></div>
+                    <Form layout="vertical">
+                        <Form.Item label="Title">
+                            <Input name = "title" placeholder="update title" onChange={this.handleInputChange}/>
                         </Form.Item>
-                    </Form>                     */}
+
+                        <Form.Item label="Status">
+                            <Input name = "status" placeholder="update status" onChange={this.handleInputChange}/>
+                        </Form.Item>
+
+                        <Form.Item label="Description">
+                            <TextArea row={4} name = "description" placeholder="update description" onChange={this.handleInputChange}/>
+                        </Form.Item>
+                    </Form>
             </Modal>   
             <QueueAnim type={["bottom", "right"]}>
                 {userdata.projects.length? items:empty} 

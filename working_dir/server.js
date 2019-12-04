@@ -276,6 +276,7 @@ app.post('/addProject', (req, res) => {
 app.patch('/editProject/:id', (req, res) => {
     const id = req.params.id
     log("Updating project " + id )
+    log(req.body)
     if (!ObjectID.isValid(id)) {
         res.status(404).send();
     }
