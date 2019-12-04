@@ -75,7 +75,7 @@ export const deleteProject = (projectID) => {
         });
 
 }
-export const search = (username, password) => {
+export const search = (projectID) => {
     // Create our request constructor with all the parameters we need
     const request = new Request("/findFuzzyTitle", {
         method: "POST",
@@ -90,24 +90,22 @@ export const search = (username, password) => {
     fetch(request)
         .then(res => {
             if (res.status === 200) {
-            // from branch next 4
-                // this is saved in local storage for now, need to use session and cookie
-                updateProjectList()
-                readUser()
-                log(res.json);
-            return res.json();//mine
+                        return res.json();
             }
         }).then(json => {
             console.log("json.project:"+json.project)
             if (json.project !== undefined) {
-                console.log("setting state")
-                setState("searchedResult", json.project);
-                console.log("searchedResult set")
+                console.log("setting projectList state")
+                setState("projectList", json.project);
+                console.log("searched projectList set")
+
             }
         })
         .catch(error => {
             console.log("set state")
             setState('erorrMessage', true)
+            setState("projectList", []);
+            console.log("searched projectList set empty")
             console.log(JSON.stringify(getState('errorMessage')))
             log("error")
             console.log(error);

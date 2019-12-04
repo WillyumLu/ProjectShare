@@ -42,8 +42,11 @@ class Navigation extends BaseReactComponent {
         <Menu.Item key="LOGOUT" id="floatRight" onClick={logout}>
             LOGOUT    
         </Menu.Item>
+        
         <Menu.Item key="search" id="floatRight">
-				  <Search
+				  
+
+          <Search
 			      placeholder="search for project"
 			      enterButton="Search"
 			      style={{'verticalAlign': 'middle'}}
