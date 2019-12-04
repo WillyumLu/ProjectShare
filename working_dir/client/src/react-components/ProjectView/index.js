@@ -66,7 +66,7 @@ class ProjectView extends BaseReactComponent {
 				    breadcrumb={{ routes }}
 				 />
 				 <div class="projectImage">
-							<img src={require('./project.jpg')}/>
+					<img src={this.project.image1} width="220" height="220"/>
 				</div>
 				<div class="userList">
 					<div class='userListHeader'>

@@ -272,8 +272,6 @@ class Home extends BaseReactComponent {
 				</div>
 				<div id="newProject">
 					<Card title="Upload Your Own Project!" className="newProjectCard" style={{"borderRadius": "2%", "width": "60", "right": "50"}}>
-						<div>Upload 3 Images for you project:</div>
-						<div id="uploadButton"><UploadProjectPicture/></div>
 						<div>Title:</div>
 						<div><Input placeholder="name your project" onChange={this.addTitle}/></div>
 						<div>Status:</div>
