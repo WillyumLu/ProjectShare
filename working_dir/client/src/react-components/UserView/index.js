@@ -131,7 +131,7 @@ class UploadProjectPicture extends BaseReactComponent{
             name="projImg"
             listType="picture-card"
             className="avatar-uploader"
-            action = {this.props.num}
+            action = {this.props.url}
             showUploadList={false}  
             beforeUpload={beforeUpload}
             onChange={this.handleChange}
@@ -490,11 +490,11 @@ class ProjectList extends BaseReactComponent{
 		this.setState({visible: true})    
     }
     cancelEdit = () => {
-		this.setSate({visible: false})    
+		this.setState({visible: false})    
     }
     handleEdit(item){
     	this.setState({editId: item._id})
-		showEdit()    
+		this.showEdit()    
     }
     submitProjInfo = () =>{
     
@@ -536,14 +536,14 @@ class ProjectList extends BaseReactComponent{
                     okText="Submit"
                     onCancel={this.cancelEdit}
                     onOk={this.submitProjInfo}>
-                    <UploadProjectPicture url={"/upload/projimg/" + this.state.editId +"image1"}/>
-                    <UploadProjectPicture url={"/upload/projimg/" + this.state.editId +"image2"}/>
-                    <UploadProjectPicture url={"/upload/projimg/" + this.state.editId +"image2"}/>
-                    <Form layout="vertical">
+                    <UploadProjectPicture url={"/upload/projimg/" + this.state.editId +"/image1"}/>
+                    <UploadProjectPicture url={"/upload/projimg/" + this.state.editId +"/image2"}/>
+                    <UploadProjectPicture url={"/upload/projimg/" + this.state.editId +"/image3"}/>
+                    {/* <Form layout="vertical">
                         <Form.Item label="Username">
                             <Input name = "newName" placeholder="new username" onChange={this.handleInputChange}/>
                         </Form.Item>
-                    </Form>                    
+                    </Form>                     */}
             </Modal>   
             <QueueAnim type={["bottom", "right"]}>
                 {userdata.projects.length? items:empty} 

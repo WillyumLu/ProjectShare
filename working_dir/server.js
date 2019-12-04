@@ -445,27 +445,27 @@ app.get("/retrieve/:id", (req, res) => {
 
 //endpoint to upload an project image
 app.post("/upload/projimg/:id/:imageNum", multipart(), (req, res) => {
-	 log(req.files)
-	 id = req.params.id
-	 imageNum = req.params.imageNum
-    const filename = req.files.projimg.originalFilename || path.basename(req.files.projimg.path);
+    log(req.files)
+	const id = req.params.id
+	const imageNum = req.params.imageNum
+    const filename = req.files.projImg.originalFilename || path.basename(req.files.projImg.path);
     const writeStream = gfs.openUploadStream(filename)
-    fs.createReadStream(req.files.projimg.path).pipe(writeStream)
+    fs.createReadStream(req.files.projImg.path).pipe(writeStream)
     writeStream.on('finish', function (file) {
         const imageUri = "/retrieve/" + file._id
-        Project.findOneById(id).then(project => {
+        Project.findById(id).then(project => {
             if (!project){
                 res.status(404).send();
             }
             else{
                 if (imageNum === "image1"){
-							project.image1 = imageUri                
+					project.image1 = imageUri                
                 }
                 if (imageNum === "image2"){
-							project.image2 = imageUri                
+					project.image2 = imageUri                
                 }
-					 if (imageNum === "image3"){
-							project.image3 = imageUri                
+					if (imageNum === "image3"){
+					    project.image3 = imageUri                
                 }
             }
             project.save().then(updated => {res.send(updated)})
