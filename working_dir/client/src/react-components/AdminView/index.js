@@ -1,8 +1,9 @@
 import React from 'react';
 import 'antd/dist/antd.css';
 import QueueAnim from 'rc-queue-anim';
-
-
+import AdminProjectList from '../AdminProjectList'
+import Navigation from '../Navigation'
+import AdminUserList from '../AdminUserList'
 import { Redirect } from 'react-router-dom'
 import { message, Avatar, Layout, List, Card, Descriptions, Collapse, Form, Input,Button, Modal,Tag, Icon, Upload, Divider, Table, Popconfirm, Select} from 'antd';
 
@@ -410,8 +411,12 @@ const settingContent =
 
 const tabList = [
     {
-      key: 'project',
-      tab: 'My project',
+        key: 'userlist',
+        tab: 'Mange Users',
+    },
+    {
+        key: 'projlist',
+        tab: 'Mange Projects',
     },
     {
       key: 'profile',
@@ -421,15 +426,6 @@ const tabList = [
     {
         key: 'settings',
         tab: 'Settings',
-    },
-    {
-        key: 'userlist',
-        tab: 'Mange Users',
-    },
-
-    {
-        key: 'projlist',
-        tab: 'Mange Projects',
     }
   ];
 
@@ -475,7 +471,7 @@ class ProjectList extends React.Component{
                     <Icon type="select" key= "detail" onClick={() => this.toPath(item.link)}/>,
                     <Icon type="edit" key="edit" />,
                     <Icon type="delete" key="delete"  onClick={() => this.handleDelete(item)}/>,
-                    ]}                  
+                    ]}
                     >
                     <Meta
                         avatar = {<Avatar src ={item.avatar}/>}
@@ -611,7 +607,7 @@ class UserManager extends React.Component{
                 key: 'userId'                
             },
             
-             {
+            {
                 title: "User Type",
                 dataIndex: 'type',
                 key: 'userType',
@@ -845,14 +841,14 @@ class AdminView extends React.Component{
 
     render(){
         const contentListNoTitle = {
-            project: <ProjectList key="projlst" rerenderParentCallback={this.rerenderParentCallback}/>,      
+            userlist: <AdminUserList key="userlst" rerenderParentCallback={this.rerenderParentCallback}/>,
+            projlist: <AdminProjectList key="projlst" rerenderParentCallback={this.rerenderParentCallback} history={this.props.history} />,
             profile: userinfo,
-            settings: settingContent,
-            userlist:<UserManager/>,
-            projlist: <ProjManager/> 
+            settings: settingContent
           };
         return(
-            <Layout>                
+            <Layout> 
+                <Navigation title = "Navigation"/>
                 <Content style={{background: '#fff'}}>
                     <Card style = {{margin: '50px', float: "left"}} bordered={false}>                       
                         <Avatar size ={400} shape="square" src={userdata.profileImage}/>
@@ -867,7 +863,6 @@ class AdminView extends React.Component{
                         style={{top: '50px',width: "70%", height: "80%", float:"left" }}
                         tabList={tabList}
                         activeTabKey={this.state.key}
-                        tabBarExtraContent={<a href="#">More</a>}
                         onTabChange={key => {
                             this.onTabChange(key, 'key');
                         }}

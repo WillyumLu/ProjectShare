@@ -10,6 +10,7 @@ import { message, Avatar, Layout, List, Card, Descriptions, Collapse, Form, Inpu
 import { LOADIPHLPAPI } from 'dns';
 import { read, link } from 'fs';
 import ProjectView from '../ProjectView';
+import Navigation from '../Navigation'
 const { Content } = Layout;
 const { Meta } = Card;
 const { Panel } = Collapse;
@@ -619,7 +620,8 @@ class UserView extends BaseReactComponent{
             settings: settingContent
           };
         return(
-            <Layout>                
+            <Layout>          
+                <Navigation title = "Navigation"/>
                 <Content style={{background: '#fff'}}>
                     <Card style = {{margin: '50px', float: "left"}} bordered={false}>                       
                         <Avatar size ={400} shape="square" src={userdata.profileImage}/>
