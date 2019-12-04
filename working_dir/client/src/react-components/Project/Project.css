@@ -1,11 +1,11 @@
 .ant-carousel .slick-slide {
   text-align: center;
-  height: 180px;
+  height: 500px;
   overflow: hidden
 }
 
 .slideImage img {
-    height: 400px;
+    height: 800px;
     width: 900px
 }
 #viewButton{
