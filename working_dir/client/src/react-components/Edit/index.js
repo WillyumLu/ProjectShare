@@ -44,7 +44,7 @@ class Edit extends React.Component {
 	render() {
 		console.log("edit page")
 		const contentListNoTitle = {
-            projects: <AdminProjectList key="projlst" rerenderParentCallback={this.rerenderParentCallback}/>,      
+            projects: <AdminProjectList key="projlst" rerenderParentCallback={this.rerenderParentCallback} history={this.props.history} />,      
             users: <AdminUserList key="userlst" rerenderParentCallback={this.rerenderParentCallback}/>
           };
 		return(

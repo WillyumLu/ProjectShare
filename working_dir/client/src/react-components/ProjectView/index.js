@@ -1,4 +1,5 @@
 import React from 'react';
+import Navigation from '../Navigation'
 import {PageHeader, Button} from 'antd';
 import BaseReactComponent from '../BaseReactComponent';
 import { addJoinRequest } from '../../actions/project'
@@ -56,6 +57,7 @@ class ProjectView extends BaseReactComponent {
 
 		return(
 			<div>
+				<Navigation title = "Navigation"/>
 				<PageHeader
 				    style={{
 				      border: '1px solid rgb(235, 237, 240)',
