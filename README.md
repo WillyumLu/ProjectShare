@@ -1,20 +1,3 @@
-## Basically this is what happend tonight
-
-- Here are the changes:
-  - login.js page now:
-    1. login button sends a request to server with username and pw (see new Request and fetch() in login.js in /client)
-    2. checks for matching username and pw in database (reference: .post(/login) in server.js, which calls functions in ./models/user.js)
-    3. returns the user and the type of user upon successful login, returns failed status code if can't log in
-    4. login page then redirects as was in phase 1 (all using dummy data, no server implemented for this part)
-  - server.js can do 2 things:
-    1. handle login requests as said above
-    2. handle a signup request which adds a users with username, pw, and type ("user"/admin") to database
-      - this is not yet linked with front-end code, so u have to send the .post(/signup) request via postman
-      - u need to use this signup request to add some users when u first run it so u can log in
-  - database:
-    1. has 1 schema called User, which has attributes username, password, and type
-    2. need to add projects schema
-      
 ## to run the code
 #### Setup
 A few things need to happen first:
@@ -37,5 +20,19 @@ A few things need to happen first:
 - \client is all client-side code, which means they are basically the same as phase 1, except in login page the request are added
   - working_dir\client\src\actions should contain a lot of request logic, but its not used for now
 - \db has the mongoose.js file (idek what it is)
-- \mongo-data was just created by u to store database info
+- \mongo-data was just created to store database info
 - server.js is the actual server code
+
+#### Functionality
+ - When you start the app, you have the option to sign up if you don't have an account, or log in
+ - If you enter the incorrect credentials, are warning message will be displayed
+ - Once you log in with correct username and password combination, or you sign up with a new username, you will be lead to the home page of the website
+ - In the home page, you will be able see a list of all projects that are in the database
+ - In addition, you can search for projects by keyword
+ - Once you have found a project that you are interested in, you can click on view to learn more about it
+ - In the home page, users can view and edit their profile picture, username and password, as well as personal information
+ - Admins have the added option of deleting existing projects/users
+ - Users can create their own project. Simply upload 3 pictures, a status, a title, and brief description
+ - If a user refreshes the page, they will remain logged in via session cookie
+ - Once the user is finished using the website, they can choose to logout
+ 
