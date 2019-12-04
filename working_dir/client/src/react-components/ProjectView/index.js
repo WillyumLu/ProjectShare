@@ -119,24 +119,7 @@ class ProjectView extends BaseReactComponent {
 				<div className= "aboutHeader"> <h4> About </h4> </div>
 				<div className ="about">
 					<div className = "para">
-						<p>
-						Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-						Nulla vel hendrerit augue. Vivamus eu feugiat ante, a maximus eros. 
-						Praesent lobortis risus eu venenatis ullamcorper. Curabitur porttitor felis nec cursus tempus. 
-						Quisque a libero libero. Vivamus vitae est euismod nibh dictum mattis sit amet eget diam. 
-						Integer et congue dui. Donec at metus ex. Maecenas dictum sapien eget nisi luctus convallis.
-						</p>
-					</div>
-					<div className = "para">
-						<p>
-						Maecenas aliquet, lacus at finibus vulputate, arcu elit venenatis risus, a rhoncus felis lacus quis turpis. 
-						Vestibulum malesuada sem eget risus molestie, eget vestibulum dui fringilla. Donec ac fermentum metus. 
-						Duis venenatis diam vestibulum, sodales dui in, semper tellus. 
-						Sed eros sem, sagittis eget cursus in, dignissim nec libero. 
-						Aliquam suscipit pellentesque turpis nec suscipit. 
-						urabitur hendrerit justo at augue scelerisque, a dignissim metus porttitor. 
-						Aenean sit amet diam nec nulla viverra vehicula eu eu metus.
-						</p>
+						{ this.project.description }
 					</div>
 				</div>
 				<div class="request">
